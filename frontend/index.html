@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>EcCC Platform</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .card { background: #1e1e1e; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); width: 320px; margin-bottom: 20px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 4px; border: 1px solid #444; background: #252525; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #007bff; border: none; color: white; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        button:hover { background: #0056b3; }
+        #status { margin-top: 15px; font-size: 0.9rem; text-align: center; min-height: 20px; }
+        
+        /* Zona Terminalului */
+        .terminal-container { width: 800px; }
+        #debug-bar { background: #333; color: #ffeb3b; padding: 5px 10px; font-family: monospace; font-size: 12px; border-top-left-radius: 8px; border-top-right-radius: 8px; }
+        #terminal { width: 100%; height: 400px; padding: 10px; background: #000000; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; box-sizing: border-box; }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+
+    <div class="card">
+        <h3 style="margin-top: 0;">EcCC Register</h3>
+        <input type="email" id="email" placeholder="Email elev">
+        <input type="password" id="password" placeholder="Parolă">
+        <button onclick="register()">Creare Cont & Mediu</button>
+        <div id="status"></div>
+    </div>
+
+    <div class="terminal-container">
+        <div id="debug-bar">Stare: Așteptare taste...</div>
+        <div id="terminal"></div>
+    </div>
+
+    <script>
+        const debugBar = document.getElementById('debug-bar');
+        const socket = io();
+        
+        // Configurarea Terminalului
+        const term = new Terminal({
+            cursorBlink: true,
+            cursorStyle: 'block',
+            theme: { background: '#000000' },
+            convertEol: true, // Formatează liniile noi (Enter) corect
+            disableStdin: false // Forțăm browserul să accepte taste
+        });
+    
+        term.open(document.getElementById('terminal'));
+        term.write('EduCode Cloud Compiler v1.0\r\nAsteptam crearea contului...\r\n');
+
+        // 1. CAPTURAREA TASTELOR
+        term.onData(data => {
+            // Afișăm tasta pe ecran (în bara galbenă) ca să fim siguri că merge
+            debugBar.innerText = `Ultima tastă trimisă la server: ${JSON.stringify(data)}`;
+            
+            // Trimitem la server/Docker
+            socket.emit('terminal-input', data);
+        });
+
+        // 2. PRIMIREA RĂSPUNSULUI DE LA DOCKER
+        socket.on('terminal-output', data => {
+            debugBar.innerText = `Primit de la Linux: ${data.length} bytes`;
+            term.write(data);
+        });
+
+        // --- LOGICA DE ÎNREGISTRARE ---
+        async function register() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const statusDiv = document.getElementById('status');
+
+            statusDiv.innerHTML = `<span style="color: #aaa;">Se procesează...</span>`;
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    statusDiv.innerHTML = `<span style="color: #4caf50">✅ Succes! ID: ${data.userId}</span>`;
+                    
+                    term.reset();
+                    term.write(`[Sistem] Mediu izolat pregatit pentru user-${data.userId}.\r\n[Sistem] Conectare...\r\n`);
+                    
+                    // ⚠️ AICI ESTE REZOLVAREA CORECTĂ ⚠️
+                    // Trimitem ID-ul către server ca să deschidă "oglinda" cu Docker-ul
+                    socket.emit('request-terminal', data.userId);
+
+                    // FORȚĂM BROWSERUL SĂ PUNA CURSORUL ÎN TERMINAL
+                    setTimeout(() => {
+                        term.focus();
+                        debugBar.innerText = "Stare: Terminal activat și focusat. Scrie ceva!";
+                    }, 500);
+
+                } else {
+                    statusDiv.innerHTML = `<span style="color: #f44336">❌ Eroare: ${data.error}</span>`;
+                }
+            } catch (err) {
+                statusDiv.innerText = "Eroare de conexiune la server.";
+            }
+        }
+
+        // Dacă dăm click pe zona neagră, forțăm focusul din nou
+        document.getElementById('terminal').addEventListener('click', () => {
+            term.focus();
+        });
+        
+    </script>
+</body>
+</html>
