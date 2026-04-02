@@ -1,0 +1,12 @@
+# Dependințele Node.js
+node_modules/
+
+# Fișierul cu parole și variabile secrete
+.env
+
+# Datele locale ale utilizatorilor (fișierele elevilor)
+data/
+
+# Fișiere generate de sistemul de operare (Mac/Windows)
+.DS_Store
+Thumbs.db
