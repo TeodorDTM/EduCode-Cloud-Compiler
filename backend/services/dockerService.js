@@ -1,7 +1,6 @@
 const Docker = require('dockerode');
 const docker = new Docker();
 
-
 async function createContainerForUser(userId) {
     const containerName = `eccc-user-${userId}`;
 
@@ -12,13 +11,22 @@ async function createContainerForUser(userId) {
         const isCreated = existingContainers.some(c => c.Names.includes(`/${containerName}`));
 
         if (isCreated) {
-            console.log(`[Docker] Containerul ${containerName} există deja. Pornire...`);
+            console.log(`[Docker] Containerul ${containerName} există deja. Încercăm pornirea...`);
             const container = docker.getContainer(containerName);
-            await container.start();
+            
+            try {
+                await container.start();
+            } catch (startErr) {
+                if (startErr.statusCode === 304) {
+                    console.log(`[Docker] Succes invizibil: Containerul rula deja. Mergem mai departe!`);
+                } else {
+                    throw startErr;
+                }
+            }
+            
             return container.id;
         }
 
-        
         const container = await docker.createContainer({
             Image: 'eccc-student-env',
             name: containerName,
@@ -41,7 +49,6 @@ async function createContainerForUser(userId) {
         throw err;
     }
 }
-
 
 async function getContainerStream(userId) {
     const containerName = `eccc-user-${userId}`;

@@ -2,116 +2,287 @@
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <title>EcCC Platform</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        .card { background: #1e1e1e; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); width: 320px; margin-bottom: 20px; }
-        input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 4px; border: 1px solid #444; background: #252525; color: white; box-sizing: border-box; }
-        button { width: 100%; padding: 10px; background: #007bff; border: none; color: white; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        button:hover { background: #0056b3; }
-        #status { margin-top: 15px; font-size: 0.9rem; text-align: center; min-height: 20px; }
-        
-        /* Zona Terminalului */
-        .terminal-container { width: 800px; }
-        #debug-bar { background: #333; color: #ffeb3b; padding: 5px 10px; font-family: monospace; font-size: 12px; border-top-left-radius: 8px; border-top-right-radius: 8px; }
-        #terminal { width: 100%; height: 400px; padding: 10px; background: #000000; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; box-sizing: border-box; }
-    </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduCode Cloud | Workspace</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+
+    <style>
+        body {
+            margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a; color: #f8fafc; display: flex;
+            height: 100vh; flex-direction: column; align-items: center; justify-content: center;
+        }
+        
+        /* Containerul central pentru carduri */
+        .card-container {
+            background: #1e293b; padding: 30px; border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); width: 400px;
+        }
+        
+        h2 { text-align: center; color: #38bdf8; margin-top: 0; margin-bottom: 5px; }
+        .subtitle { text-align:center; font-size: 14px; color: #94a3b8; margin-bottom: 20px; }
+        
+        input {
+            width: 100%; padding: 12px; margin: 8px 0; border-radius: 5px;
+            border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input:focus { border-color: #38bdf8; outline: none; }
+        
+        /* Input special pentru codul de verificare */
+        .code-input {
+            font-size: 24px; text-align: center; letter-spacing: 15px; font-weight: bold;
+            font-family: monospace;
+        }
+
+        button {
+            width: 100%; padding: 12px; background: #0284c7; color: white;
+            border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 15px;
+            transition: background 0.3s;
+        }
+        button:hover { background: #0369a1; }
+        button:disabled { background: #475569; cursor: not-allowed; }
+        
+        .toggle-link {
+            text-align: center; margin-top: 15px; font-size: 13px; color: #94a3b8;
+        }
+        .toggle-link a { color: #38bdf8; text-decoration: none; cursor: pointer; font-weight: bold; }
+        .toggle-link a:hover { text-decoration: underline; }
+
+        .message { text-align: center; font-size: 13px; margin-top: 10px; min-height: 20px; }
+
+        /* Ascundem ecranele inactive */
+        .hidden { display: none !important; }
+
+        /* Containerul pentru Terminal */
+        #workspace-container {
+            display: none; width: 95%; height: 95%; flex-direction: column;
+        }
+        #terminal-header {
+            background: #1e293b; padding: 10px 20px; border-radius: 10px 10px 0 0;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        #terminal {
+            flex-grow: 1; background: #000; padding: 10px; border-radius: 0 0 10px 10px;
+            overflow: hidden;
+        }
+        .status-dot { height: 12px; width: 12px; background-color: #22c55e; border-radius: 50%; display: inline-block; margin-right: 8px;}
+    </style>
 </head>
 <body>
 
-    <div class="card">
-        <h3 style="margin-top: 0;">EcCC Register</h3>
-        <input type="email" id="email" placeholder="Email elev">
-        <input type="password" id="password" placeholder="Parolă">
-        <button onclick="register()">Creare Cont & Mediu</button>
-        <div id="status"></div>
+    <div id="login-screen" class="card-container">
+        <h2>Bine ai revenit</h2>
+        <div class="subtitle">Conectează-te la mediul tău de lucru</div>
+        
+        <form id="loginForm">
+            <input type="email" id="login-email" placeholder="Adresa de email" required>
+            <input type="password" id="login-parola" placeholder="Parola" required>
+            <button type="submit" id="loginBtn">Conectare</button>
+        </form>
+        
+        <div id="login-msg" class="message"></div>
+        <div class="toggle-link">
+            Nu ai un cont? <a onclick="switchScreen('register-screen')">Creează unul acum</a>
+        </div>
     </div>
 
-    <div class="terminal-container">
-        <div id="debug-bar">Stare: Așteptare taste...</div>
+    <div id="register-screen" class="card-container hidden">
+        <h2>EduCode Cloud</h2>
+        <div class="subtitle">Creează o instanță nouă Ubuntu 22.04</div>
+        
+        <form id="registerForm">
+            <input type="text" id="reg-nume" placeholder="Nume" required>
+            <input type="text" id="reg-prenume" placeholder="Prenume" required>
+            <input type="email" id="reg-email" placeholder="Email (vei primi un cod)" required>
+            <input type="text" id="reg-telefon" placeholder="Telefon (opțional)">
+            <input type="text" id="reg-scoala" placeholder="Școala / Liceul" required>
+            <input type="password" id="reg-parola" placeholder="Alege o parolă sigură" required>
+            <button type="submit" id="registerBtn">Creare Cont</button>
+        </form>
+        
+        <div id="register-msg" class="message"></div>
+        <div class="toggle-link">
+            Ai deja un cont? <a onclick="switchScreen('login-screen')">Conectează-te</a>
+        </div>
+    </div>
+
+    <div id="verify-screen" class="card-container hidden">
+        <h2>Verificare Securitate</h2>
+        <div class="subtitle">Am trimis un cod de 6 cifre pe adresa ta de email.</div>
+        
+        <form id="verifyForm">
+            <input type="text" id="verify-code" class="code-input" placeholder="------" maxlength="6" required autocomplete="off">
+            <button type="submit" id="verifyBtn">Verifică și Pornește Instanța</button>
+        </form>
+        
+        <div id="verify-msg" class="message"></div>
+        <div class="toggle-link">
+            Nu ai primit codul? <a onclick="alert('Funcție de retrimitere în curând')">Retrimite</a>
+        </div>
+    </div>
+
+    <div id="workspace-container">
+        <div id="terminal-header">
+            <div><span class="status-dot"></span><span id="user-display">Instanță activă</span></div>
+            <button style="width: auto; padding: 6px 15px; margin:0; background: #ef4444;" onclick="location.reload()">Deconectare</button>
+        </div>
         <div id="terminal"></div>
     </div>
 
     <script>
-        const debugBar = document.getElementById('debug-bar');
-        const socket = io();
-        
-        // Configurarea Terminalului
-        const term = new Terminal({
-            cursorBlink: true,
-            cursorStyle: 'block',
-            theme: { background: '#000000' },
-            convertEol: true, // Formatează liniile noi (Enter) corect
-            disableStdin: false // Forțăm browserul să accepte taste
-        });
-    
-        term.open(document.getElementById('terminal'));
-        term.write('EduCode Cloud Compiler v1.0\r\nAsteptam crearea contului...\r\n');
+        // Variabile globale pentru a ține minte utilizatorul între ecrane
+        let currentUserId = null;
+        let currentUserEmail = null;
 
-        // 1. CAPTURAREA TASTELOR
-        term.onData(data => {
-            // Afișăm tasta pe ecran (în bara galbenă) ca să fim siguri că merge
-            debugBar.innerText = `Ultima tastă trimisă la server: ${JSON.stringify(data)}`;
+        // Funcție de navigare între ecrane
+        function switchScreen(screenId) {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('register-screen').classList.add('hidden');
+            document.getElementById('verify-screen').classList.add('hidden');
+            document.getElementById('workspace-container').style.display = 'none';
             
-            // Trimitem la server/Docker
-            socket.emit('terminal-input', data);
-        });
+            if (screenId === 'workspace-container') {
+                document.getElementById(screenId).style.display = 'flex';
+            } else {
+                document.getElementById(screenId).classList.remove('hidden');
+            }
+        }
 
-        // 2. PRIMIREA RĂSPUNSULUI DE LA DOCKER
-        socket.on('terminal-output', data => {
-            debugBar.innerText = `Primit de la Linux: ${data.length} bytes`;
-            term.write(data);
-        });
+        // ==========================================
+        // 1. LOGICA DE REGISTER
+        // ==========================================
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('registerBtn');
+            const msg = document.getElementById('register-msg');
+            btn.innerText = "Se creează..."; btn.disabled = true;
 
-        // --- LOGICA DE ÎNREGISTRARE ---
-        async function register() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const statusDiv = document.getElementById('status');
-
-            statusDiv.innerHTML = `<span style="color: #aaa;">Se procesează...</span>`;
+            const userData = {
+                nume: document.getElementById('reg-nume').value,
+                prenume: document.getElementById('reg-prenume').value,
+                email: document.getElementById('reg-email').value,
+                telefon: document.getElementById('reg-telefon').value,
+                scoala: document.getElementById('reg-scoala').value,
+                parola: document.getElementById('reg-parola').value
+            };
 
             try {
                 const response = await fetch('/api/register', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify(userData)
                 });
-
                 const data = await response.json();
 
-                if (response.ok) {
-                    statusDiv.innerHTML = `<span style="color: #4caf50">✅ Succes! ID: ${data.userId}</span>`;
+                if (data.success) {
+                    // Salvăm datele pentru pasul de verificare
+                    currentUserId = data.userId;
+                    currentUserEmail = userData.email;
                     
-                    term.reset();
-                    term.write(`[Sistem] Mediu izolat pregatit pentru user-${data.userId}.\r\n[Sistem] Conectare...\r\n`);
-                    
-                    // ⚠️ AICI ESTE REZOLVAREA CORECTĂ ⚠️
-                    // Trimitem ID-ul către server ca să deschidă "oglinda" cu Docker-ul
-                    socket.emit('request-terminal', data.userId);
-
-                    // FORȚĂM BROWSERUL SĂ PUNA CURSORUL ÎN TERMINAL
-                    setTimeout(() => {
-                        term.focus();
-                        debugBar.innerText = "Stare: Terminal activat și focusat. Scrie ceva!";
-                    }, 500);
-
+                    // Trecem la ecranul de cod
+                    switchScreen('verify-screen');
                 } else {
-                    statusDiv.innerHTML = `<span style="color: #f44336">❌ Eroare: ${data.error}</span>`;
+                    msg.style.color = '#ef4444'; msg.innerText = data.error;
+                    btn.innerText = "Creare Cont"; btn.disabled = false;
                 }
             } catch (err) {
-                statusDiv.innerText = "Eroare de conexiune la server.";
+                msg.style.color = '#ef4444'; msg.innerText = "Eroare de conexiune.";
+                btn.innerText = "Creare Cont"; btn.disabled = false;
             }
-        }
-
-        // Dacă dăm click pe zona neagră, forțăm focusul din nou
-        document.getElementById('terminal').addEventListener('click', () => {
-            term.focus();
         });
-        
+
+        // ==========================================
+        // 2. LOGICA DE VERIFICARE COD
+        // ==========================================
+        document.getElementById('verifyForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('verifyBtn');
+    const msg = document.getElementById('verify-msg');
+    const code = document.getElementById('verify-code').value;
+    
+    btn.innerText = "Se configurează Linux..."; btn.disabled = true;
+
+    try {
+        const response = await fetch('/api/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: currentUserEmail, code: code })
+        });
+        const data = await response.json();
+
+        if (data.success) {
+            msg.style.color = '#22c55e'; msg.innerText = "Cod corect! Se pornește terminalul...";
+            setTimeout(() => startWorkspace(data.userId, currentUserEmail), 1000);
+        } else {
+            msg.style.color = '#ef4444'; msg.innerText = data.error;
+            btn.innerText = "Verifică"; btn.disabled = false;
+        }
+    } catch (err) {
+        msg.innerText = "Eroare conexiune."; btn.disabled = false;
+    }
+});
+
+        // ==========================================
+        // 3. LOGICA DE LOGIN
+        // ==========================================
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('loginBtn');
+    const msg = document.getElementById('login-msg');
+    
+    const email = document.getElementById('login-email').value;
+    const parola = document.getElementById('login-parola').value;
+    
+    btn.innerText = "Se conectează..."; btn.disabled = true;
+
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, parola })
+        });
+        const data = await response.json();
+
+        if (data.success) {
+            msg.style.color = '#22c55e'; msg.innerText = "Conectat! Se deschide mediul...";
+            setTimeout(() => startWorkspace(data.userId, email), 1000);
+        } else {
+            msg.style.color = '#ef4444'; msg.innerText = data.error;
+            btn.innerText = "Conectare"; btn.disabled = false;
+        }
+    } catch (err) {
+        msg.innerText = "Eroare conexiune."; btn.disabled = false;
+    }
+});
+        // ==========================================
+        // 4. INIȚIALIZAREA TERMINALULUI (Workspace)
+        // ==========================================
+        function startWorkspace(userId, email) {
+            switchScreen('workspace-container');
+            document.getElementById('user-display').innerText = `Ubuntu 22.04 | Logat ca: ${email}`;
+
+            const term = new Terminal({
+                cursorBlink: true,
+                theme: { background: '#000000', foreground: '#f8fafc' },
+                fontFamily: 'Consolas, "Courier New", monospace'
+            });
+            term.open(document.getElementById('terminal'));
+            term.write('Se conectează la clusterul EduCode Cloud...\r\n');
+
+            const socket = io();
+            socket.emit('request-terminal', userId);
+
+            term.onData(data => socket.emit('terminal-input', data));
+            socket.on('terminal-output', data => term.write(data));
+            
+            socket.on('disconnect', () => {
+                term.write('\r\n\x1b[31m[Deconectat] Conexiunea cu serverul s-a pierdut.\x1b[0m\r\n');
+            });
+        }
     </script>
 </body>
 </html>
