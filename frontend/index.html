@@ -1,288 +1,120 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduCode Cloud | Workspace</title>
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css" />
-    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-
-    <style>
-        body {
-            margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0f172a; color: #f8fafc; display: flex;
-            height: 100vh; flex-direction: column; align-items: center; justify-content: center;
-        }
-        
-        /* Containerul central pentru carduri */
-        .card-container {
-            background: #1e293b; padding: 30px; border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5); width: 400px;
-        }
-        
-        h2 { text-align: center; color: #38bdf8; margin-top: 0; margin-bottom: 5px; }
-        .subtitle { text-align:center; font-size: 14px; color: #94a3b8; margin-bottom: 20px; }
-        
-        input {
-            width: 100%; padding: 12px; margin: 8px 0; border-radius: 5px;
-            border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
-        input:focus { border-color: #38bdf8; outline: none; }
-        
-        /* Input special pentru codul de verificare */
-        .code-input {
-            font-size: 24px; text-align: center; letter-spacing: 15px; font-weight: bold;
-            font-family: monospace;
-        }
-
-        button {
-            width: 100%; padding: 12px; background: #0284c7; color: white;
-            border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 15px;
-            transition: background 0.3s;
-        }
-        button:hover { background: #0369a1; }
-        button:disabled { background: #475569; cursor: not-allowed; }
-        
-        .toggle-link {
-            text-align: center; margin-top: 15px; font-size: 13px; color: #94a3b8;
-        }
-        .toggle-link a { color: #38bdf8; text-decoration: none; cursor: pointer; font-weight: bold; }
-        .toggle-link a:hover { text-decoration: underline; }
-
-        .message { text-align: center; font-size: 13px; margin-top: 10px; min-height: 20px; }
-
-        /* Ascundem ecranele inactive */
-        .hidden { display: none !important; }
-
-        /* Containerul pentru Terminal */
-        #workspace-container {
-            display: none; width: 95%; height: 95%; flex-direction: column;
-        }
-        #terminal-header {
-            background: #1e293b; padding: 10px 20px; border-radius: 10px 10px 0 0;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        #terminal {
-            flex-grow: 1; background: #000; padding: 10px; border-radius: 0 0 10px 10px;
-            overflow: hidden;
-        }
-        .status-dot { height: 12px; width: 12px; background-color: #22c55e; border-radius: 50%; display: inline-block; margin-right: 8px;}
-    </style>
+    <title>EduCode Cloud Compiler</title>
+    <link rel="stylesheet" href="css/style_index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div id="login-screen" class="card-container">
-        <h2>Bine ai revenit</h2>
-        <div class="subtitle">Conectează-te la mediul tău de lucru</div>
+    <div class="container">
         
-        <form id="loginForm">
-            <input type="email" id="login-email" placeholder="Adresa de email" required>
-            <input type="password" id="login-parola" placeholder="Parola" required>
-            <button type="submit" id="loginBtn">Conectare</button>
-        </form>
-        
-        <div id="login-msg" class="message"></div>
-        <div class="toggle-link">
-            Nu ai un cont? <a onclick="switchScreen('register-screen')">Creează unul acum</a>
-        </div>
-    </div>
+        <nav class="glass-pill navbar">
+            <div class="logo">
+                <span class="logo-prefix">~$</span><span class="logo-text">Edu<span class="logo-accent">Code</span></span>
+            </div>
+            <div class="nav-links">
+                <a href="auth.html?action=login" class="nav-link">SIGN IN</a>
+                <a href="auth.html?action=register" class="nav-link btn-nav-register">REGISTER FREE</a>
+            </div>
+        </nav>
 
-    <div id="register-screen" class="card-container hidden">
-        <h2>EduCode Cloud</h2>
-        <div class="subtitle">Creează o instanță nouă Ubuntu 22.04</div>
-        
-        <form id="registerForm">
-            <input type="text" id="reg-nume" placeholder="Nume" required>
-            <input type="text" id="reg-prenume" placeholder="Prenume" required>
-            <input type="email" id="reg-email" placeholder="Email (vei primi un cod)" required>
-            <input type="text" id="reg-telefon" placeholder="Telefon (opțional)">
-            <input type="text" id="reg-scoala" placeholder="Școala / Liceul" required>
-            <input type="password" id="reg-parola" placeholder="Alege o parolă sigură" required>
-            <button type="submit" id="registerBtn">Creare Cont</button>
-        </form>
-        
-        <div id="register-msg" class="message"></div>
-        <div class="toggle-link">
-            Ai deja un cont? <a onclick="switchScreen('login-screen')">Conectează-te</a>
-        </div>
-    </div>
-
-    <div id="verify-screen" class="card-container hidden">
-        <h2>Verificare Securitate</h2>
-        <div class="subtitle">Am trimis un cod de 6 cifre pe adresa ta de email.</div>
-        
-        <form id="verifyForm">
-            <input type="text" id="verify-code" class="code-input" placeholder="------" maxlength="6" required autocomplete="off">
-            <button type="submit" id="verifyBtn">Verifică și Pornește Instanța</button>
-        </form>
-        
-        <div id="verify-msg" class="message"></div>
-        <div class="toggle-link">
-            Nu ai primit codul? <a onclick="alert('Funcție de retrimitere în curând')">Retrimite</a>
-        </div>
-    </div>
-
-    <div id="workspace-container">
-        <div id="terminal-header">
-            <div><span class="status-dot"></span><span id="user-display">Instanță activă</span></div>
-            <button style="width: auto; padding: 6px 15px; margin:0; background: #ef4444;" onclick="location.reload()">Deconectare</button>
-        </div>
-        <div id="terminal"></div>
-    </div>
-
-    <script>
-        // Variabile globale pentru a ține minte utilizatorul între ecrane
-        let currentUserId = null;
-        let currentUserEmail = null;
-
-        // Funcție de navigare între ecrane
-        function switchScreen(screenId) {
-            document.getElementById('login-screen').classList.add('hidden');
-            document.getElementById('register-screen').classList.add('hidden');
-            document.getElementById('verify-screen').classList.add('hidden');
-            document.getElementById('workspace-container').style.display = 'none';
+        <div class="card-wrapper">
+            <img src="assets/effect1.png" alt="" class="bg-glow glow-hero">
             
-            if (screenId === 'workspace-container') {
-                document.getElementById(screenId).style.display = 'flex';
-            } else {
-                document.getElementById(screenId).classList.remove('hidden');
-            }
-        }
+            <section class="glass-card hero-section">
+                <div class="hero-content">
+                    <div class="logo hero-logo">
+                        <span class="logo-prefix">~$</span><span class="logo-text">Edu<span class="logo-accent">Code</span></span>
+                    </div>
+                    <h1 class="hero-title">Your Code.<br>Powered by the Cloud.</h1>
+                    <p class="hero-description">Leave hardware limitations behind. Write, compile, and run complex algorithms instantly in a dedicated Linux environment, right from your browser.</p>
+                    <div class="hero-buttons">
+                        <a href="auth.html?action=register" class="btn btn-primary">Start Coding Now</a>
+                        <a href="#features" class="btn btn-outline">Explore Features</a>
+                    </div>
+                </div>
+                <div class="hero-graphics">
+                    <img src="assets/pycpp.png" alt="Python and C++" class="floating-img">
+                </div>
+            </section>
+        </div>
 
-        // ==========================================
-        // 1. LOGICA DE REGISTER
-        // ==========================================
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('registerBtn');
-            const msg = document.getElementById('register-msg');
-            btn.innerText = "Se creează..."; btn.disabled = true;
-
-            const userData = {
-                nume: document.getElementById('reg-nume').value,
-                prenume: document.getElementById('reg-prenume').value,
-                email: document.getElementById('reg-email').value,
-                telefon: document.getElementById('reg-telefon').value,
-                scoala: document.getElementById('reg-scoala').value,
-                parola: document.getElementById('reg-parola').value
-            };
-
-            try {
-                const response = await fetch('/api/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(userData)
-                });
-                const data = await response.json();
-
-                if (data.success) {
-                    // Salvăm datele pentru pasul de verificare
-                    currentUserId = data.userId;
-                    currentUserEmail = userData.email;
-                    
-                    // Trecem la ecranul de cod
-                    switchScreen('verify-screen');
-                } else {
-                    msg.style.color = '#ef4444'; msg.innerText = data.error;
-                    btn.innerText = "Creare Cont"; btn.disabled = false;
-                }
-            } catch (err) {
-                msg.style.color = '#ef4444'; msg.innerText = "Eroare de conexiune.";
-                btn.innerText = "Creare Cont"; btn.disabled = false;
-            }
-        });
-
-        // ==========================================
-        // 2. LOGICA DE VERIFICARE COD
-        // ==========================================
-        document.getElementById('verifyForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('verifyBtn');
-    const msg = document.getElementById('verify-msg');
-    const code = document.getElementById('verify-code').value;
-    
-    btn.innerText = "Se configurează Linux..."; btn.disabled = true;
-
-    try {
-        const response = await fetch('/api/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: currentUserEmail, code: code })
-        });
-        const data = await response.json();
-
-        if (data.success) {
-            msg.style.color = '#22c55e'; msg.innerText = "Cod corect! Se pornește terminalul...";
-            setTimeout(() => startWorkspace(data.userId, currentUserEmail), 1000);
-        } else {
-            msg.style.color = '#ef4444'; msg.innerText = data.error;
-            btn.innerText = "Verifică"; btn.disabled = false;
-        }
-    } catch (err) {
-        msg.innerText = "Eroare conexiune."; btn.disabled = false;
-    }
-});
-
-        // ==========================================
-        // 3. LOGICA DE LOGIN
-        // ==========================================
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const btn = document.getElementById('loginBtn');
-    const msg = document.getElementById('login-msg');
-    
-    const email = document.getElementById('login-email').value;
-    const parola = document.getElementById('login-parola').value;
-    
-    btn.innerText = "Se conectează..."; btn.disabled = true;
-
-    try {
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, parola })
-        });
-        const data = await response.json();
-
-        if (data.success) {
-            msg.style.color = '#22c55e'; msg.innerText = "Conectat! Se deschide mediul...";
-            setTimeout(() => startWorkspace(data.userId, email), 1000);
-        } else {
-            msg.style.color = '#ef4444'; msg.innerText = data.error;
-            btn.innerText = "Conectare"; btn.disabled = false;
-        }
-    } catch (err) {
-        msg.innerText = "Eroare conexiune."; btn.disabled = false;
-    }
-});
-        // ==========================================
-        // 4. INIȚIALIZAREA TERMINALULUI (Workspace)
-        // ==========================================
-        function startWorkspace(userId, email) {
-            switchScreen('workspace-container');
-            document.getElementById('user-display').innerText = `Ubuntu 22.04 | Logat ca: ${email}`;
-
-            const term = new Terminal({
-                cursorBlink: true,
-                theme: { background: '#000000', foreground: '#f8fafc' },
-                fontFamily: 'Consolas, "Courier New", monospace'
-            });
-            term.open(document.getElementById('terminal'));
-            term.write('Se conectează la clusterul EduCode Cloud...\r\n');
-
-            const socket = io();
-            socket.emit('request-terminal', userId);
-
-            term.onData(data => socket.emit('terminal-input', data));
-            socket.on('terminal-output', data => term.write(data));
+        <div class="card-wrapper">
+            <img src="assets/effect2.png" alt="" class="bg-glow glow-ubuntu">
             
-            socket.on('disconnect', () => {
-                term.write('\r\n\x1b[31m[Deconectat] Conexiunea cu serverul s-a pierdut.\x1b[0m\r\n');
-            });
-        }
-    </script>
+            <section class="glass-card feature-section">
+                <div class="feature-graphics">
+                    <img src="assets/ubuntulinux.png" alt="Ubuntu Linux Terminal" class="floating-img">
+                </div>
+                <div class="feature-content">
+                    <h2 class="feature-title">Ubuntu 22.04 LTS</h2>
+                    <h3 class="feature-subtitle">A native Linux experience, zero setup required.</h3>
+                    <p class="feature-text">
+                        Stop fighting with local installations. Experience a raw, high-performance Ubuntu environment directly in your browser with <span class="text-accent">no emulation</span>.
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <section id="features" class="glass-card extra-info-section">
+            <h2 class="section-title">Built for Performance and Scale</h2>
+            <div class="grid-features">
+                <div class="feature-item">
+                    <h4>⚡ Lightning Fast</h4>
+                    <p>Powered by highly optimized Docker containers, your workspace boots up in under 2 seconds. No waiting.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>💾 Persistent Storage</h4>
+                    <p>Close your browser, turn off your PC. Your code, files, and terminal history are safely saved in the cloud.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🔒 Enterprise Security</h4>
+                    <p>Every user gets a strictly isolated container environment. Your data and processes are 100% private.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>💻 True Cross-Platform</h4>
+                    <p>Code comfortably from your Windows desktop, your MacBook, a tablet, or even your smartphone.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🛠️ Pre-configured Tools</h4>
+                    <p>GCC, Python3 everything you need is pre-installed. Just log in and start building.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🎓 Perfect for Education</h4>
+                    <p>Standardized environments mean "it works on my machine" is a thing of the past for students and teachers.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="glass-pill footer-section">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-prefix">~$</span><span class="logo-text">Edu<span class="logo-accent">Code</span></span>
+                </div>
+                <div class="footer-socials">
+                    <a href="#" class="social-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    </a>
+                    <a href="mailto:contact@educode.com" class="social-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 EduCode Cloud. All rights reserved.</p>
+            </div>
+        </footer>
+
+    </div>
+
 </body>
 </html>

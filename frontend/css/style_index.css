@@ -1,0 +1,176 @@
+:root {
+    --bg-page: #000000;
+    --glass-bg: #ffffff08;
+    --glass-border: #ffffff26;
+    --text-main: #ffffff;
+    --text-muted: #a1a1aa;
+    --accent-color: #38bdf8;
+    --accent-orange: #f97316;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    overflow-x: hidden;
+}
+
+/* =========================================
+   GLOW BACKGROUNDS (ANCORATE)
+========================================= */
+.card-wrapper {
+    position: relative; 
+    width: 100%;
+}
+
+.bg-glow {
+    position: absolute;
+    z-index: -1;          
+    pointer-events: none; 
+    opacity: 0.5;         
+}
+
+.glow-hero {
+    top: -60%;          
+    right: -25%;        /* Ajustat pentru containerul mai lat */
+    width: 80%;         
+    max-width: 1000px;  
+    min-width: 450px;   
+}
+
+.glow-ubuntu {
+    top: -60%;          
+    left: -20%;         /* Ajustat pentru containerul mai lat */
+    width: 70%;         
+    max-width: 900px;   
+    min-width: 400px;   
+}
+
+/* =========================================
+   LAYOUT & GLASSMORPHISM
+========================================= */
+.container {
+    max-width: 1200px;  /* <-- MĂRIT DE LA 1000px LA 1200px PENTRU WIDE UI */
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.glass-card, .glass-pill {
+    background-color: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+/* =========================================
+   NAVBAR
+========================================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    border-radius: 50px;
+}
+
+.logo { font-weight: 700; font-size: 20px; }
+.logo-prefix { color: #22c55e; margin-right: 5px; }
+.logo-accent { color: var(--accent-color); }
+
+.nav-links { display: flex; gap: 20px; align-items: center;}
+.nav-link { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s; }
+.nav-link:hover { color: var(--text-main); }
+.btn-nav-register { background: rgba(255,255,255,0.05); padding: 8px 16px; border-radius: 20px; border: 1px solid var(--glass-border); }
+.btn-nav-register:hover { background: rgba(255,255,255,0.1); }
+
+/* =========================================
+   HERO SECTION
+========================================= */
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 70px 60px; /* Padding mai generos */
+    border-radius: 24px;
+}
+
+.hero-logo { font-size: 24px; margin-bottom: 15px; }
+.hero-content { max-width: 600px; }
+.hero-title { font-size: 52px; font-weight: 700; margin: 0 0 20px 0; line-height: 1.1; }
+.hero-description { font-size: 16px; color: var(--text-muted); margin-bottom: 35px; line-height: 1.6; }
+
+.hero-buttons { display: flex; gap: 15px; }
+.btn { padding: 14px 28px; border-radius: 50px; text-decoration: none; font-weight: 500; font-size: 15px; transition: all 0.3s; }
+.btn-primary { background-color: #2a3a52; color: white; border: 1px solid rgba(255, 255, 255, 0.2); }
+.btn-primary:hover { background-color: #3b4d6b; }
+.btn-outline { background-color: transparent; color: white; border: 1px solid var(--glass-border); }
+.btn-outline:hover { background-color: rgba(255,255,255,0.1); }
+
+.hero-graphics img { max-width: 300px; } /* Grafică puțin mai mare */
+
+/* =========================================
+   UBUNTU FEATURE SECTION
+========================================= */
+.feature-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px;
+    border-radius: 24px;
+}
+
+.feature-content { text-align: right; max-width: 600px; }
+.feature-title { font-size: 46px; font-weight: 700; margin: 0 0 10px 0; }
+.feature-subtitle { font-size: 20px; color: var(--text-muted); font-weight: 400; margin: 0 0 20px 0; }
+.feature-text { font-size: 16px; color: #d1d5db; line-height: 1.6; }
+.text-accent { color: var(--accent-orange); font-weight: 600; }
+.feature-graphics img { max-width: 240px; }
+
+/* =========================================
+   EXTRA INFO SECTION (GRID 6 ITEME)
+========================================= */
+.extra-info-section {
+    padding: 50px 60px;
+    border-radius: 24px;
+}
+
+.section-title { text-align: center; font-size: 32px; margin-top: 0; margin-bottom: 40px; }
+
+.grid-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 coloane pe layout mare */
+    gap: 40px 30px;
+}
+
+.feature-item h4 { font-size: 18px; margin: 0 0 10px 0; color: var(--accent-color); }
+.feature-item p { margin: 0; font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+
+/* =========================================
+   FOOTER SECTION
+========================================= */
+.footer-section {
+    padding: 30px 50px;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.footer-socials { display: flex; gap: 20px; }
+.social-icon { width: 24px; height: 24px; color: var(--text-muted); transition: color 0.3s, transform 0.3s; }
+.social-icon:hover { color: var(--text-main); transform: translateY(-3px); }
+
+.footer-bottom { text-align: center; font-size: 13px; color: #71717a; }

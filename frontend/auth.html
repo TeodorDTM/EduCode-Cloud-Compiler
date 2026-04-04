@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduCode Cloud Compiler | Auth</title>
+    <link rel="stylesheet" href="css/style_auth.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <div class="auth-card">
+            
+            <div class="auth-left">
+                <img src="assets/logo1.png" alt="EduCode Cloud Compiler" id="brand-graphic">
+            </div>
+
+            <div class="auth-right">
+                
+                <div class="back-btn-container" id="back-btn-container">
+                    <svg id="back-btn" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                </div>
+
+                <div id="screen-login" class="auth-screen active">
+                    <h2>Login to your account</h2>
+                    <form id="form-login">
+                        <div class="input-group">
+                            <input type="email" id="login-email" placeholder="Email" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="login-password" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Login</button>
+                    </form>
+                    <div class="auth-links">
+                        <p>Don't have an account? <span class="link" onclick="switchScreen('screen-register-1')">Register</span></p>
+                        <p><span class="link">Forgot your password?</span></p>
+                    </div>
+                </div>
+
+                <div id="screen-register-1" class="auth-screen">
+                    <h2>Create an account</h2>
+                    <form id="form-register-1">
+                        <div class="input-row">
+                            <div class="input-group">
+                                <input type="text" id="reg-fname" placeholder="First Name" required>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="reg-lname" placeholder="Last Name" required>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="email" id="reg-email" placeholder="Email" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="tel" id="reg-phone" placeholder="Phone Number">
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="reg-school" placeholder="School" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Next</button>
+                    </form>
+                </div>
+
+                <div id="screen-register-2" class="auth-screen">
+                    <h2>Create a password</h2>
+                    <form id="form-register-2">
+                        <div class="input-group">
+                            <input type="password" id="reg-password" placeholder="Password" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="reg-password-confirm" placeholder="Retype Password" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Register</button>
+                    </form>
+                </div>
+
+                <div id="screen-verify" class="auth-screen">
+                    <h2>Verify account</h2>
+                    <form id="form-verify">
+                        <div class="input-group">
+                            <input type="text" id="verify-code" placeholder="- - - - - -" maxlength="6" class="center-text letter-spaced" required autocomplete="off">
+                        </div>
+                        <button type="submit" class="btn-primary">Continue</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script_auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+:root {
+    --bg-page: #000000;
+    --bg-card: #09090b; /* Un negru extrem de închis, aproape de fundal */
+    --border-color: #ffffff42; /* Movul stins din designul tău */
+    --text-main: #ffffff;
+    --text-muted: #a1a1aa;
+    --btn-bg: #1e293b; /* Albastrul închis al butonului */
+    --btn-border: #3b82f6; /* Un contur subtil la buton dacă e nevoie, deocamdată folosim border-color */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Cardul Principal */
+.main-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.auth-card {
+    display: flex;
+    width: 900px;
+    height: 550px;
+    background-color: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: 24px;
+    overflow: hidden; /* Păstrează colțurile rotunde */
+}
+
+/* Partea Stângă (Grafică) */
+.auth-left {
+    flex: 1;
+    border-right: 2px solid var(--border-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.auth-left img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+}
+
+/* Partea Dreaptă (Formulare) */
+.auth-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 60px;
+    position: relative; /* Pentru butonul de back */
+}
+
+/* Ecranele */
+.auth-screen {
+    display: none; /* Ascunse implicit */
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.auth-screen.active {
+    display: flex; /* Afișat când are clasa active */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tipografie */
+h2 {
+    font-size: 26px;
+    font-weight: 500;
+    margin-bottom: 30px;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+/* Formulare și Input-uri */
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-row {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.input-group {
+    width: 100%;
+}
+
+input {
+    width: 100%;
+    background-color: transparent;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: var(--text-main);
+    font-size: 14px;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+input::placeholder {
+    color: #e2e8f0;
+}
+
+input:focus {
+    outline: none;
+    border-color: #8b81aa; /* Puțin mai deschis la focus */
+}
+
+.center-text { text-align: center; }
+.letter-spaced { letter-spacing: 12px; font-size: 18px;}
+
+/* Butoane */
+.btn-primary {
+    background-color: var(--btn-bg);
+    border: 2px solid var(--border-color);
+    color: var(--text-main);
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 50%;
+    align-self: center; /* Centrează butonul */
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #2a3a52;
+}
+
+/* Link-uri jos (Login screen) */
+.auth-links {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-main);
+    line-height: 1.6;
+}
+
+.auth-links p { margin: 5px 0; }
+.link { text-decoration: underline; cursor: pointer; }
+.link:hover { color: #cbd5e1; }
+
+/* Butonul de Back (Săgeata) */
+.back-btn-container {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    cursor: pointer;
+    display: none; /* Controlat din JS */
+    color: var(--border-color);
+    transition: color 0.2s;
+}
+
+.back-btn-container:hover {
+    color: #8b81aa;
+}

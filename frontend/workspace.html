@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduCode | Workspace</title>
+    
+    <link rel="stylesheet" href="css/style_home.css"> 
+    <link rel="stylesheet" href="css/style_workspace.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css" />
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.7.0/lib/xterm-addon-fit.js"></script>
+</head>
+<body class="workspace-body">
+
+    <header class="top-nav">
+        <div class="logo">
+            <span class="logo-prefix">~$</span><span class="logo-text">Edu<span class="logo-accent">Code</span></span>
+        </div>
+        
+        <div class="workspace-actions">
+            <button class="tool-btn" title="Format Code" id="btn-format">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10H3M21 6H3M21 14H3M21 18H3"/></svg>
+            </button>
+            <button class="tool-btn" title="Save (Ctrl+S)" id="btn-save">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            </button>
+            <div class="divider"></div>
+            <button class="tool-btn debug-btn" title="Run and Debug" id="btn-debug">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Bug
+            </button>
+            <button class="tool-btn run-btn" title="Run Code" id="btn-run">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Run
+            </button>
+        </div>
+    </header>
+
+    <div class="dashboard-layout workspace-layout">
+        
+        <aside class="sidebar glass-panel">
+            <div class="nav-top">
+                <a href="home.html" class="nav-item" title="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></a>
+                <a href="#" class="nav-item" title="Projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg></a>
+                <a href="#" class="nav-item active" title="Terminal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg></a>
+            </div>
+            <div class="nav-bottom">
+                <div class="user-status online" title="Profile"></div>
+            </div>
+        </aside>
+
+        <main class="workspace-main">
+            
+            <div class="ide-panel editor-wrapper">
+                <div class="panel-tab tab-top">editor</div>
+                <div id="monaco-editor" class="editor-container"></div>
+            </div>
+
+            <div class="right-column">
+                
+                <div class="ide-panel output-wrapper">
+                    <div class="panel-tab tab-top">output</div>
+                    <div class="output-container" id="output-content">
+                        <div class="output-line system-msg">// Aici va apărea rezultatul programului tău...</div>
+                    </div>
+                </div>
+
+                <div class="ide-panel terminal-wrapper">
+                    <div class="terminal-header">
+                        <span class="status-dot"></span> Ubuntu 22.04 | <span class="term-email">student@educode.com</span>
+                    </div>
+                    <div id="terminal-container" class="terminal-container"></div>
+                    <div class="panel-tab tab-bottom">cli linux</div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+</div> <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    
+    <script src="js/script_workspace.js"></script>
+</body>
+</html>
