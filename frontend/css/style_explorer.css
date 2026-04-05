@@ -1,0 +1,129 @@
+.explorer-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.explorer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.explorer-actions {
+    display: flex;
+    gap: 15px;
+}
+
+/* =========================================
+   BREADCRUMBS (Calea directoarelor)
+========================================= */
+.breadcrumbs-container {
+    background: rgba(25, 27, 36, 0.5);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.breadcrumbs-container .folder-icon {
+    width: 18px; height: 18px; color: var(--accent-color);
+}
+
+.breadcrumbs {
+    display: flex; align-items: center; flex-wrap: wrap; font-size: 14px;
+}
+
+.crumb {
+    color: var(--text-muted); cursor: pointer; transition: color 0.2s;
+}
+
+.crumb:hover { color: var(--text-main); }
+.crumb.active { color: var(--text-main); font-weight: 600; cursor: default; }
+
+.crumb-separator {
+    margin: 0 8px; color: #4a4563; font-size: 12px;
+}
+
+/* =========================================
+   FILE GRID (Icoanele folderelor și fișierelor)
+========================================= */
+.file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 20px;
+    align-content: start;
+    flex: 1;
+}
+
+.file-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.file-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: var(--glass-border);
+}
+
+.file-icon { width: 48px; height: 48px; margin-bottom: 10px; }
+.file-icon.folder { color: #facc15; fill: rgba(250, 204, 21, 0.2); }
+.file-icon.file { color: #9ca3af; fill: rgba(156, 163, 175, 0.1); }
+.file-icon.python { color: #3b82f6; }
+.file-icon.cpp { color: #6366f1; }
+
+.file-name {
+    font-size: 13px;
+    text-align: center;
+    color: var(--text-main);
+    word-break: break-all;
+    max-width: 100%;
+}
+
+.loading-text { color: var(--text-muted); font-size: 14px; grid-column: 1 / -1; }
+
+/* =========================================
+   CONTEXT MENU (Click Dreapta)
+========================================= */
+.context-menu {
+    position: absolute;
+    background: #1a1d27;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    border-radius: 8px;
+    padding: 6px;
+    width: 180px;
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+}
+
+.context-menu.active { display: flex; }
+
+.context-item {
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-main);
+    font-size: 13px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.context-item svg { width: 14px; height: 14px; }
+.context-item:hover { background: rgba(255, 255, 255, 0.1); }
+.context-item.danger { color: #ef4444; }
+.context-item.danger:hover { background: rgba(239, 68, 68, 0.15); }
+.context-divider { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 4px 0; }

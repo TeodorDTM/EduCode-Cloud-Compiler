@@ -1,30 +1,46 @@
 // ==========================================
-// 1. INIȚIALIZAREA NUMELUI UTILIZATORULUI
+// 1. INIȚIALIZARE
 // ==========================================
+const mockUserId = 1; 
 const mockUserName = "Teodor"; 
 
 window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('user-name').innerText = mockUserName;
-    renderProjects();
+    fetchProjects();
 });
 
 // ==========================================
-// 2. GENERAREA CARDURILOR DE PROIECTE
+// 2. GENERAREA CARDURILOR DE PROIECTE (DIN DB)
 // ==========================================
-const myProjects = [
-    { id: 1, title: "Data Analysis Tool", date: "12.04.2026", lang: "python", img: "assets/py-icon.png" },
-    { id: 2, title: "Game Engine Core", date: "10.04.2026", lang: "cpp", img: "assets/cpp-icon.png" }
-];
+async function fetchProjects() {
+    try {
+        const res = await fetch(`/api/projects/${mockUserId}`);
+        const data = await res.json();
 
-function renderProjects() {
+        if (data.success) {
+            renderProjects(data.projects);
+        }
+    } catch (err) {
+        console.error("Nu s-au putut încărca proiectele", err);
+    }
+}
+
+function renderProjects(projects) {
     const grid = document.getElementById('projects-grid');
     grid.innerHTML = ''; 
 
-    myProjects.forEach(project => {
+    if (!projects || projects.length === 0) {
+        grid.innerHTML = '<p style="color: var(--text-muted);">Nu ai niciun proiect. Creează unul nou!</p>';
+        return;
+    }
+
+    projects.forEach(project => {
         const card = document.createElement('div');
         card.className = 'project-card';
         
-        // MODIFICAT: Când dai click, trimite limbajul și numele prin URL
+        const dateObj = new Date(project.created_at);
+        const formattedDate = `${dateObj.getDate()}.${dateObj.getMonth() + 1}.${dateObj.getFullYear()}`;
+
         card.onclick = () => {
             window.location.href = `workspace.html?lang=${project.lang}&name=${encodeURIComponent(project.title)}`;
         };
@@ -33,18 +49,19 @@ function renderProjects() {
             <div class="card-overlay">
                 <div class="card-info">
                     <h4>${project.title}</h4>
-                    <span>${project.date}</span>
+                    <span>${formattedDate}</span>
                 </div>
-                <div class="lang-icon" style="background-color: rgba(255,255,255,0.1); border-radius: 5px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size: 10px;">${project.lang.toUpperCase()}</div>
+                <div class="lang-icon" style="background-color: rgba(255,255,255,0.1); border-radius: 5px; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size: 10px; font-weight: bold;">
+                    ${project.lang.toUpperCase()}
+                </div>
             </div>
         `;
-
         grid.appendChild(card);
     });
 }
 
 // ==========================================
-// 3. LOGICA MODALULUI (POP-UP) NEW PROJECT
+// 3. LOGICA MODALULUI (CREARE PROIECT REAL)
 // ==========================================
 const btnNewProject = document.getElementById('btn-new-project');
 const modalNewProject = document.getElementById('modal-new-project');
@@ -68,12 +85,40 @@ modalNewProject.addEventListener('click', (e) => {
     }
 });
 
-formNewProject.addEventListener('submit', (e) => {
+formNewProject.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const projectName = document.getElementById('project-name').value;
     const projectLang = document.getElementById('project-lang').value;
+    
+    const submitBtn = formNewProject.querySelector('button[type="submit"]');
+    submitBtn.innerText = "Se creează...";
+    submitBtn.disabled = true;
 
-    // MODIFICAT: Redirecționare reală către workspace cu setările alese
-    window.location.href = `workspace.html?lang=${projectLang}&name=${encodeURIComponent(projectName)}`;
+    try {
+        const response = await fetch('/api/projects', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: projectName,
+                lang: projectLang,
+                userId: mockUserId
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            // Aruncăm utilizatorul direct în IDE
+            window.location.href = `workspace.html?lang=${projectLang}&name=${encodeURIComponent(projectName)}`;
+        } else {
+            alert("Eroare la crearea proiectului: " + data.error);
+            submitBtn.innerText = "Create Project";
+            submitBtn.disabled = false;
+        }
+    } catch (err) {
+        alert("Eroare de conexiune la server.");
+        submitBtn.innerText = "Create Project";
+        submitBtn.disabled = false;
+    }
 });

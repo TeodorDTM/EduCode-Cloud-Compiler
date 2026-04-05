@@ -8,7 +8,7 @@ const db = new sqlite3.Database(dbPath, (err) => {
     } else {
         console.log('[DB] Conectat la SQLite.');
         
-        // Tabel nou, standard Enterprise
+        // Tabel pentru Utilizatori
         db.run(`CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nume TEXT NOT NULL,
@@ -21,6 +21,16 @@ const db = new sqlite3.Database(dbPath, (err) => {
             is_verified BOOLEAN DEFAULT 0,
             verification_code TEXT,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )`);
+
+        // NOU: Tabel pentru Proiecte
+        db.run(`CREATE TABLE IF NOT EXISTS projects (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            title TEXT NOT NULL,
+            lang TEXT NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id)
         )`);
     }
 });
