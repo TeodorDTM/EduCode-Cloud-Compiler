@@ -20,13 +20,23 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     iputils-ping \
     && rm -rf /var/lib/apt/lists/*
 
+# Creare utilizator student cu drepturi sudo
 RUN useradd -m -s /bin/bash student && \
     echo "student ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
+# Creare director workspace cu permisiuni corecte (înainte de USER student)
+RUN mkdir -p /home/student/workspace && \
+    chown -R student:student /home/student
+
 ENV TERM=xterm-256color
-WORKDIR /home/student
+
 USER student
 
-RUN cp /etc/skel/.bashrc /home/student/.bashrc
+# Copiem .bashrc și setăm prompt-ul personalizat
+RUN cp /etc/skel/.bashrc /home/student/.bashrc 2>/dev/null || true && \
+    echo 'export PS1="\[\033[01;32m\]student@educode\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ "' >> /home/student/.bashrc && \
+    echo 'cd /home/student/workspace' >> /home/student/.bashrc
+
+WORKDIR /home/student/workspace
 
 CMD ["tail", "-f", "/dev/null"]
