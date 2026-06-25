@@ -8,90 +8,155 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+<div class="main-wrapper">
+    <div class="auth-card">
 
-    <div class="main-wrapper">
-        <div class="auth-card">
-            
-            <div class="auth-left">
-                <img src="assets/logo1.png" alt="EduCode Cloud Compiler" id="brand-graphic">
+        <div class="auth-left">
+            <img src="assets/logo1.png" alt="EduCode Cloud Compiler" id="brand-graphic">
+        </div>
+
+        <div class="auth-right">
+
+            <div class="back-btn-container" id="back-btn-container">
+                <svg id="back-btn" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
             </div>
 
-            <div class="auth-right">
-                
-                <div class="back-btn-container" id="back-btn-container">
-                    <svg id="back-btn" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 12H5M12 19l-7-7 7-7"/>
-                    </svg>
-                </div>
-
-                <div id="screen-login" class="auth-screen active">
-                    <h2>Login to your account</h2>
-                    <form id="form-login">
-                        <div class="input-group">
-                            <input type="email" id="login-email" placeholder="Email" required>
-                        </div>
-                        <div class="input-group">
-                            <input type="password" id="login-password" placeholder="Password" required>
-                        </div>
-                        <button type="submit" class="btn-primary">Login</button>
-                    </form>
-                    <div class="auth-links">
-                        <p>Don't have an account? <span class="link" onclick="switchScreen('screen-register-1')">Register</span></p>
-                        <p><span class="link">Forgot your password?</span></p>
+            <!-- LOGIN -->
+            <div id="screen-login" class="auth-screen active">
+                <h2>Login to your account</h2>
+                <form id="form-login">
+                    <div class="input-group">
+                        <input type="email" id="login-email" placeholder="Email" required>
                     </div>
+                    <div class="input-group">
+                        <input type="password" id="login-password" placeholder="Password" required>
+                    </div>
+                    <div id="login-error" class="error-msg"></div>
+                    <button type="submit" class="btn-primary" id="btn-login">Login</button>
+                </form>
+                <div class="auth-links">
+                    <p>Don't have an account? <span class="link" onclick="switchScreen('screen-register-1')">Register</span></p>
+                    <p><span class="link" onclick="switchScreen('screen-forgot')">Forgot your password?</span></p>
                 </div>
-
-                <div id="screen-register-1" class="auth-screen">
-                    <h2>Create an account</h2>
-                    <form id="form-register-1">
-                        <div class="input-row">
-                            <div class="input-group">
-                                <input type="text" id="reg-fname" placeholder="First Name" required>
-                            </div>
-                            <div class="input-group">
-                                <input type="text" id="reg-lname" placeholder="Last Name" required>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <input type="email" id="reg-email" placeholder="Email" required>
-                        </div>
-                        <div class="input-group">
-                            <input type="tel" id="reg-phone" placeholder="Phone Number">
-                        </div>
-                        <div class="input-group">
-                            <input type="text" id="reg-school" placeholder="School" required>
-                        </div>
-                        <button type="submit" class="btn-primary">Next</button>
-                    </form>
-                </div>
-
-                <div id="screen-register-2" class="auth-screen">
-                    <h2>Create a password</h2>
-                    <form id="form-register-2">
-                        <div class="input-group">
-                            <input type="password" id="reg-password" placeholder="Password" required>
-                        </div>
-                        <div class="input-group">
-                            <input type="password" id="reg-password-confirm" placeholder="Retype Password" required>
-                        </div>
-                        <button type="submit" class="btn-primary">Register</button>
-                    </form>
-                </div>
-
-                <div id="screen-verify" class="auth-screen">
-                    <h2>Verify account</h2>
-                    <form id="form-verify">
-                        <div class="input-group">
-                            <input type="text" id="verify-code" placeholder="- - - - - -" maxlength="6" class="center-text letter-spaced" required autocomplete="off">
-                        </div>
-                        <button type="submit" class="btn-primary">Continue</button>
-                    </form>
-                </div>
-
             </div>
+
+            <!-- REGISTER STEP 1 -->
+            <div id="screen-register-1" class="auth-screen">
+                <h2>Create an account</h2>
+                <form id="form-register-1">
+                    <div class="input-row">
+                        <div class="input-group">
+                            <input type="text" id="reg-fname" placeholder="First Name" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="reg-lname" placeholder="Last Name" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="reg-email" placeholder="Email" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="tel" id="reg-phone" placeholder="Phone Number">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="reg-school" placeholder="School" required>
+                    </div>
+                    <div id="reg1-error" class="error-msg"></div>
+                    <button type="submit" class="btn-primary">Next</button>
+                </form>
+                <div class="auth-links">
+                    <p>Already have an account? <span class="link" onclick="switchScreen('screen-login')">Login</span></p>
+                </div>
+            </div>
+
+            <!-- REGISTER STEP 2 -->
+            <div id="screen-register-2" class="auth-screen">
+                <h2>Create a password</h2>
+                <form id="form-register-2">
+                    <div class="input-group">
+                        <input type="password" id="reg-password" placeholder="Password (min. 6 characters)" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="reg-password-confirm" placeholder="Retype Password" required>
+                    </div>
+                    <div id="reg2-error" class="error-msg"></div>
+                    <button type="submit" class="btn-primary" id="btn-register">Register</button>
+                </form>
+            </div>
+
+            <!-- VERIFY (register) -->
+            <div id="screen-verify" class="auth-screen">
+                <h2>Verify account</h2>
+                <p class="screen-subtitle">We sent a 6-digit code to <strong id="verify-email-display"></strong></p>
+                <form id="form-verify">
+                    <div class="input-group">
+                        <input type="text" id="verify-code" placeholder="— — — — — —" maxlength="6"
+                               class="center-text letter-spaced" required autocomplete="off">
+                    </div>
+                    <div id="verify-error" class="error-msg"></div>
+                    <button type="submit" class="btn-primary">Activate Account</button>
+                </form>
+                <div class="auth-links">
+                    <p><span class="link" id="resend-verify-btn">Resend code</span></p>
+                </div>
+            </div>
+
+            <!-- FORGOT PASSWORD -->
+            <div id="screen-forgot" class="auth-screen">
+                <h2>Forgot password?</h2>
+                <p class="screen-subtitle">Enter your email and we'll send you a reset code.</p>
+                <form id="form-forgot">
+                    <div class="input-group">
+                        <input type="email" id="forgot-email" placeholder="Email" required>
+                    </div>
+                    <div id="forgot-error" class="error-msg"></div>
+                    <button type="submit" class="btn-primary" id="btn-forgot">Send reset code</button>
+                </form>
+                <div class="auth-links">
+                    <p><span class="link" onclick="switchScreen('screen-login')">Back to Login</span></p>
+                </div>
+            </div>
+
+            <!-- RESET CODE VERIFY -->
+            <div id="screen-reset-verify" class="auth-screen">
+                <h2>Enter reset code</h2>
+                <p class="screen-subtitle">We sent a code to <strong id="reset-email-display"></strong></p>
+                <form id="form-reset-verify">
+                    <div class="input-group">
+                        <input type="text" id="reset-code" placeholder="— — — — — —" maxlength="6"
+                               class="center-text letter-spaced" required autocomplete="off">
+                    </div>
+                    <div id="reset-verify-error" class="error-msg"></div>
+                    <button type="submit" class="btn-primary">Verify Code</button>
+                </form>
+                <div class="auth-links">
+                    <p><span class="link" id="resend-reset-btn">Resend code</span></p>
+                </div>
+            </div>
+
+            <!-- NEW PASSWORD -->
+            <div id="screen-new-password" class="auth-screen">
+                <h2>Set new password</h2>
+                <p class="screen-subtitle">Choose a strong password for your account.</p>
+                <form id="form-new-password">
+                    <div class="input-group">
+                        <input type="password" id="new-password" placeholder="New Password (min. 6 characters)" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="new-password-confirm" placeholder="Confirm New Password" required>
+                    </div>
+                    <div id="new-pass-error" class="error-msg"></div>
+                    <button type="submit" class="btn-primary" id="btn-set-password">Save New Password</button>
+                </form>
+            </div>
+
         </div>
     </div>
+</div>
 
-    <script src="js/script_auth.js"></script>
+<script src="js/script_auth.js"></script>
 </body>
 </html>

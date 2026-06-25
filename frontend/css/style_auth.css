@@ -1,184 +1,100 @@
 :root {
     --bg-page: #000000;
-    --bg-card: #09090b; /* Un negru extrem de închis, aproape de fundal */
-    --border-color: #ffffff42; /* Movul stins din designul tău */
+    --bg-card: #09090b;
+    --border-color: #ffffff42;
     --text-main: #ffffff;
     --text-muted: #a1a1aa;
-    --btn-bg: #1e293b; /* Albastrul închis al butonului */
-    --btn-border: #3b82f6; /* Un contur subtil la buton dacă e nevoie, deocamdată folosim border-color */
+    --btn-bg: #1e293b;
+    --accent: #38bdf8;
+    --danger: #ef4444;
 }
 
 body {
-    margin: 0;
-    padding: 0;
+    margin: 0; padding: 0;
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-page);
     color: var(--text-main);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    box-sizing: border-box;
+    display: flex; justify-content: center; align-items: center;
+    height: 100vh; box-sizing: border-box;
 }
 
-/* Cardul Principal */
-.main-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-}
+.main-wrapper { width: 100%; display: flex; justify-content: center; padding: 20px; }
 
 .auth-card {
-    display: flex;
-    width: 900px;
-    height: 550px;
+    display: flex; width: 900px; height: 570px;
     background-color: var(--bg-card);
     border: 2px solid var(--border-color);
-    border-radius: 24px;
-    overflow: hidden; /* Păstrează colțurile rotunde */
+    border-radius: 24px; overflow: hidden;
 }
 
-/* Partea Stângă (Grafică) */
 .auth-left {
-    flex: 1;
-    border-right: 2px solid var(--border-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+    flex: 1; border-right: 2px solid var(--border-color);
+    display: flex; justify-content: center; align-items: center; padding: 20px;
 }
+.auth-left img { max-width: 80%; max-height: 80%; object-fit: contain; }
 
-.auth-left img {
-    max-width: 80%;
-    max-height: 80%;
-    object-fit: contain;
-}
-
-/* Partea Dreaptă (Formulare) */
 .auth-right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 40px 60px;
-    position: relative; /* Pentru butonul de back */
+    flex: 1; display: flex; flex-direction: column;
+    justify-content: center; padding: 36px 56px; position: relative;
+    overflow-y: auto;
 }
 
-/* Ecranele */
-.auth-screen {
-    display: none; /* Ascunse implicit */
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.auth-screen.active {
-    display: flex; /* Afișat când are clasa active */
-    animation: fadeIn 0.3s ease-in-out;
-}
+.auth-screen { display: none; flex-direction: column; align-items: center; width: 100%; }
+.auth-screen.active { display: flex; animation: fadeIn 0.3s ease-in-out; }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Tipografie */
-h2 {
-    font-size: 26px;
-    font-weight: 500;
-    margin-bottom: 30px;
-    text-align: center;
-    letter-spacing: 0.5px;
-}
+h2 { font-size: 24px; font-weight: 600; margin-bottom: 6px; text-align: center; letter-spacing: 0.3px; }
 
-/* Formulare și Input-uri */
-form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.screen-subtitle {
+    font-size: 13px; color: var(--text-muted); text-align: center;
+    margin: 0 0 22px; line-height: 1.5;
 }
+.screen-subtitle strong { color: var(--text-main); }
 
-.input-row {
-    display: flex;
-    gap: 15px;
-    width: 100%;
-}
+form { width: 100%; display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
 
-.input-group {
-    width: 100%;
-}
+.input-row { display: flex; gap: 12px; width: 100%; }
+.input-group { width: 100%; }
 
 input {
-    width: 100%;
-    background-color: transparent;
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
-    padding: 14px 16px;
-    color: var(--text-main);
-    font-size: 14px;
-    font-family: inherit;
-    box-sizing: border-box;
-    transition: border-color 0.2s;
+    width: 100%; background-color: transparent;
+    border: 2px solid var(--border-color); border-radius: 12px;
+    padding: 13px 15px; color: var(--text-main); font-size: 14px;
+    font-family: inherit; box-sizing: border-box; transition: border-color 0.2s;
 }
-
-input::placeholder {
-    color: #e2e8f0;
-}
-
-input:focus {
-    outline: none;
-    border-color: #8b81aa; /* Puțin mai deschis la focus */
-}
+input::placeholder { color: #71717a; }
+input:focus { outline: none; border-color: var(--accent); }
 
 .center-text { text-align: center; }
-.letter-spaced { letter-spacing: 12px; font-size: 18px;}
+.letter-spaced { letter-spacing: 10px; font-size: 20px; }
 
-/* Butoane */
 .btn-primary {
-    background-color: var(--btn-bg);
-    border: 2px solid var(--border-color);
-    color: var(--text-main);
-    padding: 12px;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    margin-top: 10px;
-    width: 50%;
-    align-self: center; /* Centrează butonul */
-    transition: background-color 0.2s;
+    background-color: var(--btn-bg); border: 2px solid var(--border-color);
+    color: var(--text-main); padding: 12px; border-radius: 12px;
+    font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 6px;
+    width: 55%; align-self: center; transition: background-color 0.2s, opacity 0.2s;
+    font-family: inherit;
+}
+.btn-primary:hover:not(:disabled) { background-color: #2a3a52; }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.error-msg {
+    font-size: 12px; color: var(--danger);
+    text-align: center; min-height: 16px;
+    margin-top: -4px;
 }
 
-.btn-primary:hover {
-    background-color: #2a3a52;
-}
+.auth-links { margin-top: 20px; text-align: center; font-size: 13px; color: var(--text-main); line-height: 1.8; }
+.auth-links p { margin: 3px 0; }
+.link { text-decoration: underline; cursor: pointer; transition: color 0.2s; }
+.link:hover { color: var(--accent); }
 
-/* Link-uri jos (Login screen) */
-.auth-links {
-    margin-top: 25px;
-    text-align: center;
-    font-size: 13px;
-    color: var(--text-main);
-    line-height: 1.6;
-}
-
-.auth-links p { margin: 5px 0; }
-.link { text-decoration: underline; cursor: pointer; }
-.link:hover { color: #cbd5e1; }
-
-/* Butonul de Back (Săgeata) */
 .back-btn-container {
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    cursor: pointer;
-    display: none; /* Controlat din JS */
-    color: var(--border-color);
-    transition: color 0.2s;
+    position: absolute; top: 32px; left: 36px; cursor: pointer;
+    display: none; color: var(--border-color); transition: color 0.2s;
 }
-
-.back-btn-container:hover {
-    color: #8b81aa;
-}
+.back-btn-container:hover { color: var(--accent); }

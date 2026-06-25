@@ -1,0 +1,129 @@
+.profile-main { padding: 36px 60px 36px 20px; overflow-y: auto; }
+
+.glass-section {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 28px 32px;
+}
+
+/* ── HERO ────────────────────────────────────────────────── */
+.profile-hero {
+    display: flex; align-items: center; gap: 32px;
+    margin-bottom: 28px;
+}
+.profile-avatar-large {
+    width: 90px; height: 90px; border-radius: 50%;
+    background: linear-gradient(135deg, #2a3a52, #38bdf8);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; font-weight: 700; color: #fff;
+    flex-shrink: 0; border: 3px solid rgba(56,189,248,0.4);
+}
+.profile-hero-info h1 { margin: 0 0 6px; font-size: 26px; font-weight: 700; }
+.profile-email { margin: 0 0 4px; color: var(--text-muted); font-size: 14px; }
+.profile-school { margin: 0 0 10px; color: var(--accent-color); font-size: 13px; }
+.profile-meta { font-size: 12px; color: #52525b; }
+
+/* ── GRID ────────────────────────────────────────────────── */
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+@media (max-width: 900px) { .profile-grid { grid-template-columns: 1fr; } }
+
+.profile-card { display: flex; flex-direction: column; gap: 0; }
+
+.card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 22px;
+}
+.card-header h2 { margin: 0; font-size: 17px; font-weight: 600; }
+
+/* ── INFO VIEW ────────────────────────────────────────────── */
+.info-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.info-row:last-child { border-bottom: none; }
+.info-label { font-size: 13px; color: var(--text-muted); }
+.info-value { font-size: 14px; color: var(--text-main); font-weight: 500; text-align: right; }
+
+.badge-verified {
+    background: rgba(16,185,129,0.15); color: #10b981;
+    border: 1px solid rgba(16,185,129,0.3);
+    padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+}
+
+.info-link { color: var(--accent-color); text-decoration: none; font-size: 13px; }
+.info-link:hover { text-decoration: underline; }
+.info-link-btn {
+    background: none; border: none; color: #ef4444;
+    font-size: 13px; cursor: pointer; padding: 0; font-family: inherit;
+}
+.info-link-btn:hover { text-decoration: underline; }
+
+/* ── EDIT FORM ────────────────────────────────────────────── */
+.edit-row { display: flex; gap: 14px; }
+.field-group {
+    display: flex; flex-direction: column; gap: 6px;
+    margin-bottom: 14px; flex: 1;
+}
+.field-group label { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+.profile-input {
+    background: transparent;
+    border: 2px solid var(--glass-border);
+    border-radius: 10px; padding: 10px 14px;
+    color: var(--text-main); font-size: 14px;
+    font-family: inherit; outline: none;
+    transition: border-color 0.2s; width: 100%; box-sizing: border-box;
+}
+.profile-input:focus { border-color: var(--accent-color); }
+
+.profile-error { font-size: 12px; color: #ef4444; min-height: 16px; margin: -4px 0 8px; }
+.profile-success { font-size: 12px; color: #10b981; min-height: 16px; margin: -4px 0 8px; }
+
+.edit-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 8px; }
+
+/* ── BUTTONS ──────────────────────────────────────────────── */
+.btn-edit {
+    display: flex; align-items: center; gap: 6px;
+    background: transparent; border: 1px solid var(--glass-border);
+    color: var(--text-muted); padding: 6px 14px;
+    border-radius: 8px; font-size: 12px; cursor: pointer;
+    transition: all 0.2s; font-family: inherit;
+}
+.btn-edit:hover { border-color: var(--accent-color); color: var(--accent-color); }
+
+.btn-save {
+    background: var(--btn-bg); color: #fff;
+    border: 1px solid var(--glass-border); padding: 10px 22px;
+    border-radius: 10px; font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; font-family: inherit;
+}
+.btn-save:hover:not(:disabled) { background: #3b4d6b; }
+.btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-outline {
+    background: transparent; color: var(--text-main);
+    border: 1px solid var(--glass-border); padding: 10px 22px;
+    border-radius: 10px; font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; font-family: inherit;
+}
+.btn-outline:hover { background: rgba(255,255,255,0.05); }
+
+/* ── DANGER ZONE ──────────────────────────────────────────── */
+.danger-card { border-color: rgba(239,68,68,0.25); }
+.danger-desc { color: var(--text-muted); font-size: 13px; line-height: 1.6; margin: 0 0 20px; }
+.btn-danger {
+    background: rgba(239,68,68,0.1); color: #ef4444;
+    border: 1px solid rgba(239,68,68,0.4); padding: 11px 24px;
+    border-radius: 10px; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s; font-family: inherit;
+}
+.btn-danger:hover { background: rgba(239,68,68,0.2); }
+
+/* active avatar highlight */
+.active-avatar { border-color: var(--accent-color) !important; }

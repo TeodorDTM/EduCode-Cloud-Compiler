@@ -8,90 +8,93 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+<div class="bg-glow"></div>
 
-    <div class="bg-glow"></div>
-
-    <header class="top-nav">
-        <div class="logo">
-            <span class="logo-prefix">~$</span><span class="logo-text">Edu<span class="logo-accent">Code</span></span>
-        </div>
-    </header>
-
-    <div class="dashboard-layout">
-        
-        <aside class="sidebar glass-panel">
-            <div class="nav-top">
-                <a href="#" class="nav-item active" title="Home">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                </a>
-                <a href="explorer.html" class="nav-item" title="File explorer">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-                </a>
-                <a href="#" class="nav-item" title="Classes/Teams">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                </a>
-                <a href="terminal.html" class="nav-item" title="Terminal">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-                </a>
-            </div>
-            <div class="nav-bottom">
-                <a href="#" class="nav-item" title="Settings">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-                </a>
-                <div class="user-status online" title="Profile"></div>
-            </div>
-        </aside>
-
-        <main class="main-content">
-            
-            <h1 class="greeting">Hello, <span id="user-name">...</span>!</h1>
-
-            <div class="action-bar">
-                <div class="search-container">
-                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    <input type="text" placeholder="Search projects..." class="search-input">
-                </div>
-                <button class="btn-primary" id="btn-new-project">New project</button>
-            </div>
-
-            <div class="projects-grid" id="projects-grid">
-                </div>
-
-        </main>
+<header class="top-nav">
+    <div class="logo">
+        <span class="logo-prefix">~$</span><span class="logo-text">Edu<span class="logo-accent">Code</span></span>
     </div>
-
-    <div class="modal-overlay" id="modal-new-project">
-        <div class="modal-content">
-            <h2 class="modal-title">Create New Project</h2>
-            <form id="form-new-project">
-                
-                <div class="input-group">
-                    <label class="input-label">Project Name</label>
-                    <input type="text" id="project-name" class="modal-input" placeholder="e.g., my_awesome_script" required>
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label">Language</label>
-                    <select id="project-lang" class="modal-input custom-select" required>
-                        <option value="python">Python 3</option>
-                        <option value="cpp">C++ (GCC)</option>
-                        <option value="c">C (GCC)</option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label">Container Location (Default)</label>
-                    <input type="text" value="/home/student/workspace" class="modal-input disabled-input" disabled>
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-outline" id="btn-cancel-modal">Cancel</button>
-                    <button type="submit" class="btn-primary">Create Project</button>
-                </div>
-            </form>
-        </div>
+    <div class="topnav-right">
+        <span class="topnav-greeting">Hello, <strong id="user-name">...</strong></span>
+        <button class="btn-logout" onclick="logout()">Logout</button>
     </div>
+</header>
 
-    <script src="js/script_home.js"></script>
+<div class="dashboard-layout">
+    <aside class="sidebar glass-panel">
+        <div class="nav-top">
+            <a href="home.html" class="nav-item active" title="Home">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </a>
+            <a href="explorer.html" class="nav-item" title="File Explorer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+            </a>
+            <a href="terminal.html" class="nav-item" title="Terminal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+            </a>
+            <a href="settings.html" class="nav-item" title="Settings">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </a>
+        </div>
+        <div class="nav-bottom">
+            <a href="profile.html" class="nav-avatar" title="Profile">
+                <span class="nav-avatar-text">?</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <h1 class="greeting">Hello, <span id="greeting-name">...</span>!</h1>
+
+        <div class="action-bar">
+            <div class="search-container">
+                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="search-input" placeholder="Search projects..." class="search-input">
+            </div>
+            <button class="btn-primary" id="btn-new-project">+ New Project</button>
+        </div>
+
+        <div id="no-results" class="no-results" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:40px;height:40px;color:#4a4563;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <p>No projects match your search.</p>
+        </div>
+
+        <div class="projects-grid" id="projects-grid"></div>
+    </main>
+</div>
+
+<!-- MODAL NEW PROJECT -->
+<div class="modal-overlay" id="modal-new-project">
+    <div class="modal-content">
+        <h2 class="modal-title">Create New Project</h2>
+        <form id="form-new-project">
+            <div class="input-group">
+                <label class="input-label">Project Name</label>
+                <input type="text" id="project-name" class="modal-input" placeholder="e.g., my_algorithm" required
+                       pattern="[a-zA-Z0-9_\-]+" title="Use only letters, numbers, _ or -">
+            </div>
+            <div class="input-group">
+                <label class="input-label">Language</label>
+                <select id="project-lang" class="modal-input custom-select" required>
+                    <option value="python">Python 3</option>
+                    <option value="cpp">C++ (GCC)</option>
+                    <option value="c">C (GCC)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label class="input-label">Container Location (Default)</label>
+                <input type="text" value="/home/student/workspace" class="modal-input disabled-input" disabled>
+            </div>
+            <div id="modal-error" class="modal-error"></div>
+            <div class="modal-actions">
+                <button type="button" class="btn-outline" id="btn-cancel-modal">Cancel</button>
+                <button type="submit" class="btn-primary" id="btn-create-project">Create Project</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="js/session.js"></script>
+<script src="js/script_home.js"></script>
 </body>
 </html>
