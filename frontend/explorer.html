@@ -10,75 +10,176 @@
 </head>
 <body>
 <div class="bg-glow"></div>
-
 <header class="top-nav">
-    <div class="logo">
-        <span class="logo-prefix">~$</span><span class="logo-text">Edu<span class="logo-accent">Code</span></span>
-    </div>
-    <div class="topnav-right">
-        <button class="btn-logout" onclick="logout()">Logout</button>
-    </div>
+    <div class="logo"><span class="logo-prefix">~$</span><span class="logo-text">Edu<span class="logo-accent">Code</span></span></div>
+    <div class="topnav-right"><button class="btn-logout" onclick="logout()">Logout</button></div>
 </header>
-
 <div class="dashboard-layout">
     <aside class="sidebar glass-panel">
         <div class="nav-top">
-            <a href="home.html" class="nav-item" title="Home">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-            </a>
-            <a href="explorer.html" class="nav-item active" title="File Explorer">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-            </a>
-            <a href="terminal.html" class="nav-item" title="Terminal">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-            </a>
-            <a href="settings.html" class="nav-item" title="Settings">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-            </a>
+            <a href="home.html" class="nav-item" title="Home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></a>
+            <a href="explorer.html" class="nav-item active" title="File Explorer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></a>
+            <a href="terminal.html" class="nav-item" title="Terminal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></a>
+            <a href="settings.html" class="nav-item" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></a>
         </div>
-        <div class="nav-bottom">
-            <a href="profile.html" class="nav-avatar" title="Profile">
-                <span class="nav-avatar-text">?</span>
-            </a>
-        </div>
+        <div class="nav-bottom"><a href="profile.html" class="nav-avatar" title="Profile"><span class="nav-avatar-text">?</span></a></div>
     </aside>
 
-    <main class="main-content explorer-main">
-        <div class="explorer-header">
-            <h1 class="greeting" style="margin:0;font-size:28px;">File Explorer</h1>
-            <div class="explorer-actions">
-                <button class="btn-outline" id="btn-refresh" title="Refresh">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+    <main class="exp-main">
+
+        <!-- ROW 1: BUTOANE ACTIUNI (fara bar, floating) -->
+        <div class="exp-actions-row">
+
+            <!-- Stanga: navigare + operatii fisiere + view -->
+            <div class="exp-actions-left">
+                <button class="xbtn" id="btn-back"    title="Back (Alt+←)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+                <button class="xbtn" id="btn-forward" title="Forward (Alt+→)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+
+                <span class="xsep"></span>
+
+                <button class="xbtn" id="btn-cut"    title="Cut (Ctrl+X)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="20" r="2"/><circle cx="6" cy="4" r="2"/><line x1="6" y1="6" x2="6" y2="18"/><line x1="6" y1="4" x2="21" y2="19"/><line x1="6" y1="20" x2="21" y2="5"/></svg></button>
+                <button class="xbtn" id="btn-copy"   title="Copy (Ctrl+C)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                <button class="xbtn" id="btn-paste"  title="Paste (Ctrl+V)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg></button>
+
+                <span class="xsep"></span>
+
+                <button class="xbtn" id="btn-rename" title="Rename (F2)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+                <button class="xbtn xbtn-del" id="btn-delete" title="Delete (Del)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
+
+                <span class="xsep"></span>
+
+                <button class="xbtn" id="btn-undo" title="Undo (Ctrl+Z)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"/></svg></button>
+                <button class="xbtn" id="btn-redo" title="Redo (Ctrl+Y)" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 7v6h-6"/><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13"/></svg></button>
+
+                <span class="xsep"></span>
+
+                <button class="xbtn xbtn-active" id="btn-view-grid" title="Grid view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></button>
+                <button class="xbtn" id="btn-view-list" title="List view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
+                <button class="xbtn" id="btn-refresh" title="Refresh (Ctrl+R)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg></button>
+            </div>
+
+            <!-- Dreapta: Upload + New -->
+            <div class="exp-actions-right">
+                <button class="xbtn-upload" id="btn-upload">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    Upload
                 </button>
-                <button class="btn-primary" id="btn-new-folder">+ New Folder</button>
+
+                <div class="xnew-wrap">
+                    <button class="xbtn-new" id="btn-create">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        New
+                        <svg class="xchev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+
+                    <!-- DROPDOWN -->
+                    <div class="xdropdown" id="create-dropdown">
+                        <div class="cd-item" data-action="folder">
+                            <span class="cd-folder-dot"></span>New Folder
+                        </div>
+                        <div class="cd-divider"></div>
+                        <div class="cd-label">Source Files</div>
+                        <div class="cd-item" data-action="file" data-ext=".py"><span class="cd-dot" style="background:#3b82f6"></span>Python Script<span class="cd-ext">.py</span></div>
+                        <div class="cd-item" data-action="file" data-ext=".cpp"><span class="cd-dot" style="background:#8b5cf6"></span>C++ Source<span class="cd-ext">.cpp</span></div>
+                        <div class="cd-item" data-action="file" data-ext=".c"><span class="cd-dot" style="background:#10b981"></span>C Source<span class="cd-ext">.c</span></div>
+                        <div class="cd-item" data-action="file" data-ext=".h"><span class="cd-dot" style="background:#f59e0b"></span>Header File<span class="cd-ext">.h</span></div>
+                        <div class="cd-divider"></div>
+                        <div class="cd-label">Documents</div>
+                        <div class="cd-item" data-action="file" data-ext=".txt"><span class="cd-dot" style="background:#94a3b8"></span>Text File<span class="cd-ext">.txt</span></div>
+                        <div class="cd-item" data-action="file" data-ext=".md"><span class="cd-dot" style="background:#38bdf8"></span>Markdown<span class="cd-ext">.md</span></div>
+                        <div class="cd-item" data-action="file" data-ext=".json"><span class="cd-dot" style="background:#84cc16"></span>JSON File<span class="cd-ext">.json</span></div>
+                        <div class="cd-item" data-action="file" data-ext=".sh"><span class="cd-dot" style="background:#22c55e"></span>Shell Script<span class="cd-ext">.sh</span></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="breadcrumbs-container">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="folder-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-            <div id="breadcrumbs" class="breadcrumbs">
-                <span class="crumb active" data-path="/home/student/workspace">workspace</span>
-            </div>
+        <!-- ROW 2: BREADCRUMBS -->
+        <div class="exp-breadcrumbs-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="bc-folder-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            <div id="breadcrumbs" class="bc-crumbs"></div>
         </div>
 
-        <div class="file-grid" id="file-grid">
-            <div class="loading-text">Loading files...</div>
+        <!-- BODY -->
+        <div class="exp-body" id="exp-body">
+            <div class="exp-file-pane" id="file-pane">
+                <div class="exp-file-content" id="file-content"><div class="exp-loading">Loading...</div></div>
+            </div>
+            <div class="exp-details-pane" id="details-pane" style="display:none">
+                <button class="det-close" id="det-close" title="Close">×</button>
+                <div class="det-icon-wrap" id="det-icon"></div>
+                <div class="det-name" id="det-name">—</div>
+                <div class="det-type-badge" id="det-type"></div>
+                <div class="det-meta">
+                    <div class="det-row"><span class="det-label">Size</span><span id="det-size">—</span></div>
+                    <div class="det-row"><span class="det-label">Modified</span><span id="det-modified">—</span></div>
+                    <div class="det-row"><span class="det-label">Path</span><span id="det-location" class="det-path">—</span></div>
+                </div>
+                <div class="det-preview-wrap" id="det-preview-wrap" style="display:none">
+                    <div class="det-preview-label">Preview</div>
+                    <pre class="det-preview" id="det-preview"></pre>
+                </div>
+                <div class="det-actions">
+                    <button class="det-btn-open" id="det-btn-open" style="display:none">Open in Workspace</button>
+                    <div class="det-btn-row">
+                        <button class="det-btn" id="det-btn-rename">Rename</button>
+                        <button class="det-btn det-btn-del" id="det-btn-delete">Delete</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 </div>
 
-<div id="context-menu" class="context-menu">
-    <div class="context-item" id="ctx-rename">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        Rename
-    </div>
-    <div class="context-divider"></div>
-    <div class="context-item danger" id="ctx-delete">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-        Delete
+<!-- CONTEXT MENU -->
+<div class="ctx-menu" id="ctx-menu">
+    <div class="ctx-item" data-cmd="open"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Open<span class="ctx-shortcut">Enter</span></div>
+    <div class="ctx-divider"></div>
+    <div class="ctx-item" data-cmd="cut"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="20" r="2"/><circle cx="6" cy="4" r="2"/><line x1="6" y1="6" x2="6" y2="18"/><line x1="6" y1="4" x2="21" y2="19"/><line x1="6" y1="20" x2="21" y2="5"/></svg>Cut<span class="ctx-shortcut">Ctrl+X</span></div>
+    <div class="ctx-item" data-cmd="copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy<span class="ctx-shortcut">Ctrl+C</span></div>
+    <div class="ctx-item" data-cmd="paste" id="ctx-paste"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/></svg>Paste<span class="ctx-shortcut">Ctrl+V</span></div>
+    <div class="ctx-divider"></div>
+    <div class="ctx-item" data-cmd="rename"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Rename<span class="ctx-shortcut">F2</span></div>
+    <div class="ctx-item ctx-danger" data-cmd="delete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>Delete<span class="ctx-shortcut">Del</span></div>
+</div>
+
+<!-- CREATE MODAL -->
+<div class="xmodal-overlay" id="modal-create">
+    <div class="xmodal-box">
+        <h2 class="xmodal-title" id="modal-create-title">New Item</h2>
+        <div class="mc-input-wrap">
+            <input type="text" id="modal-create-input" class="xmodal-input" placeholder="Name" autocomplete="off" spellcheck="false">
+            <span class="mc-ext" id="modal-create-ext"></span>
+        </div>
+        <pre class="mc-preview" id="modal-create-preview"></pre>
+        <div id="modal-create-error" class="xmodal-error"></div>
+        <div class="xmodal-actions">
+            <button class="xbtn-cancel" id="btn-modal-cancel">Cancel</button>
+            <button class="xbtn-confirm" id="btn-modal-confirm">Create</button>
+        </div>
     </div>
 </div>
 
+<!-- UPLOAD MODAL -->
+<div class="xmodal-overlay" id="modal-upload">
+    <div class="xmodal-box">
+        <h2 class="xmodal-title">Upload Files</h2>
+        <p style="color:#71717a;font-size:13px;text-align:center;margin:-8px 0 18px;">
+            Destination: <code id="upload-dest-path" style="color:#38bdf8;font-size:12px;"></code>
+        </p>
+        <div class="xdrop-zone" id="drop-zone">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:32px;height:32px;color:#4a4563;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <span class="xdrop-text">Drag & drop files here, or <u style="cursor:pointer" id="browse-trigger">browse</u></span>
+            <input type="file" id="file-input" hidden multiple>
+        </div>
+        <div id="upload-list" class="xupload-list"></div>
+        <div class="xmodal-actions" style="margin-top:16px;">
+            <button class="xbtn-cancel" id="btn-cancel-upload">Close</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast" class="xtoast"></div>
 <script src="js/session.js"></script>
 <script src="js/script_explorer.js"></script>
 </body>

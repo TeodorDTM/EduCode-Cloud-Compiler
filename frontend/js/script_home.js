@@ -5,9 +5,8 @@ window.addEventListener('DOMContentLoaded', () => {
     session = requireAuth();
     if (!session) return;
 
-    // Populăm numele utilizatorului
+    // Populăm numele utilizatorului în greeting
     const name = getDisplayName();
-    document.getElementById('user-name').textContent = name;
     document.getElementById('greeting-name').textContent = name;
 
     fetchProjects();
@@ -50,7 +49,7 @@ function renderProjects(projects) {
             noResults.style.display = 'none';
             grid.innerHTML = `<div class="empty-state">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-                <p>No projects yet. Create your first one!</p>
+                <p>No projects yet. Click <strong>+ New Project</strong> to get started.</p>
             </div>`;
         }
         return;

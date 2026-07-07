@@ -1,129 +1,277 @@
-.explorer-main {
-    display: flex;
-    flex-direction: column;
+/* ═══════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════ */
+.exp-main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+
+/* ═══════════════════════════════════════════════
+   ROW 1 — BUTOANE ACTIUNI (transparent, fara bar)
+═══════════════════════════════════════════════ */
+.exp-actions-row {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 18px 8px; flex-shrink:0;
+}
+.exp-actions-left  { display:flex; align-items:center; gap:2px; }
+.exp-actions-right { display:flex; align-items:center; gap:8px; }
+
+.xsep { width:1px; height:16px; background:rgba(255,255,255,0.08); margin:0 6px; flex-shrink:0; }
+
+/* ── Buton actiune ──────────────────────────── */
+.xbtn {
+    width:30px; height:30px; border-radius:7px;
+    background:transparent; border:none;
+    color:#6b7280;   /* mai vizibil decat inainte (#4a5568) */
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:background 0.12s, color 0.12s; flex-shrink:0;
+}
+.xbtn svg { width:15px; height:15px; }
+
+/* Disabled — vizibil dar clar inactiv */
+.xbtn:disabled {
+    opacity:0.38;
+    cursor:not-allowed;
+    color:#4b5563;
 }
 
-.explorer-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
+/* Hover pe buton activ */
+.xbtn:hover:not(:disabled) {
+    background:rgba(255,255,255,0.09); color:#cbd5e1;
 }
 
-.explorer-actions {
-    display: flex;
-    gap: 15px;
+/* ── Starea ACTIVA (fisier selectat) — albastru ── */
+.xbtn.xbtn-sel {
+    color:#60a5fa;
+    background:rgba(56,189,248,0.09);
+}
+.xbtn.xbtn-sel:hover {
+    background:rgba(56,189,248,0.17); color:#93c5fd;
 }
 
-/* =========================================
-   BREADCRUMBS (Calea directoarelor)
-========================================= */
-.breadcrumbs-container {
-    background: rgba(25, 27, 36, 0.5);
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 25px;
+/* Delete selectat → rosu in loc de albastru */
+.xbtn-del.xbtn-sel {
+    color:#f87171;
+    background:rgba(239,68,68,0.09);
+}
+.xbtn-del.xbtn-sel:hover {
+    background:rgba(239,68,68,0.17); color:#fca5a5;
 }
 
-.breadcrumbs-container .folder-icon {
-    width: 18px; height: 18px; color: var(--accent-color);
+/* View activ */
+.xbtn.xbtn-active { color:#38bdf8 !important; background:rgba(56,189,248,0.1) !important; }
+
+/* ── Upload ─────────────────────────────────── */
+.xbtn-upload {
+    height:30px; padding:0 13px; border-radius:7px;
+    background:transparent; border:1px solid rgba(255,255,255,0.12);
+    color:#9ca3af; font-size:12px; font-weight:500; cursor:pointer;
+    display:flex; align-items:center; gap:6px;
+    transition:all 0.15s; white-space:nowrap; font-family:inherit;
 }
+.xbtn-upload svg { width:13px; height:13px; }
+.xbtn-upload:hover { border-color:rgba(255,255,255,0.25); color:#e2e8f0; background:rgba(255,255,255,0.05); }
 
-.breadcrumbs {
-    display: flex; align-items: center; flex-wrap: wrap; font-size: 14px;
+/* ── New button + dropdown ──────────────────── */
+.xnew-wrap { position:relative; }
+.xbtn-new {
+    height:30px; padding:0 12px; border-radius:7px;
+    background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.3);
+    color:#38bdf8; font-size:12px; font-weight:600; cursor:pointer;
+    display:flex; align-items:center; gap:5px;
+    transition:all 0.15s; white-space:nowrap; font-family:inherit;
 }
+.xbtn-new svg { width:13px; height:13px; }
+.xchev { width:11px !important; height:11px !important; }
+.xbtn-new:hover { background:rgba(56,189,248,0.18); border-color:#38bdf8; }
 
-.crumb {
-    color: var(--text-muted); cursor: pointer; transition: color 0.2s;
+.xdropdown {
+    position:fixed; background:#13151f;
+    border:1px solid rgba(255,255,255,0.11); border-radius:12px; padding:6px;
+    min-width:210px; z-index:9999;
+    box-shadow:0 20px 50px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.03);
+    display:none; flex-direction:column; animation:xDrop 0.15s ease;
 }
+.xdropdown.open { display:flex; }
+@keyframes xDrop { from{opacity:0;transform:translateY(-6px) scale(.97)} to{opacity:1;transform:none} }
 
-.crumb:hover { color: var(--text-main); }
-.crumb.active { color: var(--text-main); font-weight: 600; cursor: default; }
+.cd-label { font-size:10px; color:#3a3a52; font-weight:700; letter-spacing:.8px; text-transform:uppercase; padding:6px 10px 3px; }
+.cd-divider { height:1px; background:rgba(255,255,255,0.06); margin:4px 0; }
+.cd-item { display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:8px; cursor:pointer; font-size:13px; color:#e2e8f0; transition:background .1s; user-select:none; }
+.cd-item:hover { background:rgba(255,255,255,0.07); }
+.cd-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.cd-folder-dot { width:14px; height:11px; background:#facc15; border-radius:2px 4px 4px 4px; flex-shrink:0; }
+.cd-ext { margin-left:auto; font-size:10px; color:#4a4563; font-family:monospace; }
 
-.crumb-separator {
-    margin: 0 8px; color: #4a4563; font-size: 12px;
+/* ═══════════════════════════════════════════════
+   ROW 2 — BREADCRUMBS
+═══════════════════════════════════════════════ */
+.exp-breadcrumbs-row {
+    display:flex; align-items:center; gap:8px;
+    padding:0 18px 8px; flex-shrink:0;
+    border-bottom:1px solid rgba(255,255,255,0.05);
 }
+.bc-folder-icon { width:14px; height:14px; color:#38bdf8; flex-shrink:0; }
+.bc-crumbs { display:flex; align-items:center; gap:2px; overflow:hidden; min-width:0; }
+.crumb { font-size:12px; color:#6b7280; cursor:pointer; padding:2px 6px; border-radius:5px; white-space:nowrap; transition:all .12s; }
+.crumb:hover { color:#e2e8f0; background:rgba(255,255,255,0.07); }
+.crumb.active { color:#e2e8f0; font-weight:600; cursor:default; }
+.crumb-sep { color:#2a2a3a; font-size:11px; user-select:none; margin:0 1px; }
 
-/* =========================================
-   FILE GRID (Icoanele folderelor și fișierelor)
-========================================= */
-.file-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 20px;
-    align-content: start;
-    flex: 1;
+/* ═══════════════════════════════════════════════
+   BODY
+═══════════════════════════════════════════════ */
+.exp-body { display:flex; flex:1; overflow:hidden; }
+.exp-file-pane { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+.exp-file-content { flex:1; padding:18px 22px; overflow-y:auto; }
+.exp-file-content::-webkit-scrollbar { width:5px; }
+.exp-file-content::-webkit-scrollbar-thumb { background:#2a3a52; border-radius:3px; }
+.exp-loading { color:#6b7280; font-size:13px; }
+.exp-empty { display:flex; flex-direction:column; align-items:center; gap:8px; padding:52px 0; color:#4a4563; font-size:13px; }
+.exp-empty svg { width:20px; height:20px; color:#2a2a3a; }
+
+/* ── Grid ───────────────────────────────────── */
+.file-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(105px,1fr)); gap:6px; }
+.file-item { display:flex; flex-direction:column; align-items:center; padding:13px 8px 10px; border-radius:12px; cursor:pointer; border:2px solid transparent; transition:all .12s; user-select:none; gap:7px; }
+.file-item:hover    { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.08); }
+.file-item.selected { background:rgba(56,189,248,0.08); border-color:rgba(56,189,248,0.4); }
+.file-item.cut-item { opacity:.35; }
+.fi-icon { line-height:0; }
+.file-name-label { font-size:11.5px; color:#e2e8f0; text-align:center; word-break:break-all; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; max-width:100%; }
+.file-type-label { font-size:10px; color:#4a4563; margin-top:-4px; }
+.rename-input { width:100%; font-size:11px; background:#1a2035; border:1px solid #38bdf8; border-radius:5px; padding:3px 6px; color:#e2e8f0; font-family:inherit; text-align:center; outline:none; box-sizing:border-box; }
+
+/* ── List ───────────────────────────────────── */
+.file-list { display:flex; flex-direction:column; gap:1px; }
+.list-header { display:grid; grid-template-columns:1fr 90px 145px 80px; padding:4px 12px; font-size:10px; color:#3a3a52; font-weight:700; letter-spacing:.5px; text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,0.04); margin-bottom:4px; }
+.list-item { display:grid; grid-template-columns:1fr 90px 145px 80px; padding:7px 12px; border-radius:8px; cursor:pointer; border:1px solid transparent; transition:all .1s; align-items:center; user-select:none; }
+.list-item:hover    { background:rgba(255,255,255,0.04); }
+.list-item.selected { background:rgba(56,189,248,0.07); border-color:rgba(56,189,248,0.2); }
+.list-item.cut-item { opacity:.35; }
+.list-name { display:flex; align-items:center; gap:10px; font-size:13px; min-width:0; }
+.list-name span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.list-type,.list-date { font-size:12px; color:#6b7280; }
+.list-size { font-size:12px; color:#6b7280; text-align:right; }
+
+/* ═══════════════════════════════════════════════
+   DETAILS PANEL
+═══════════════════════════════════════════════ */
+.exp-details-pane { width:270px; flex-shrink:0; border-left:1px solid rgba(255,255,255,0.05); background:rgba(8,9,14,.5); display:flex; flex-direction:column; padding:18px 16px; gap:14px; overflow-y:auto; position:relative; animation:xSlide .16s ease; }
+@keyframes xSlide { from{opacity:0;transform:translateX(10px)} to{opacity:1;transform:none} }
+.exp-details-pane::-webkit-scrollbar { width:4px; }
+.exp-details-pane::-webkit-scrollbar-thumb { background:#1e293b; border-radius:2px; }
+.det-close { position:absolute; top:10px; right:10px; background:none; border:none; color:#3a3a52; font-size:18px; cursor:pointer; line-height:1; transition:color .12s; padding:2px 5px; border-radius:4px; }
+.det-close:hover { color:#e2e8f0; background:rgba(255,255,255,0.06); }
+.det-icon-wrap { display:flex; justify-content:center; padding:12px 0 4px; }
+.det-name { font-size:13px; font-weight:600; text-align:center; word-break:break-all; line-height:1.4; color:#e2e8f0; }
+.det-type-badge { align-self:center; font-size:10px; font-weight:700; padding:3px 10px; border-radius:20px; letter-spacing:.4px; }
+.det-meta { display:flex; flex-direction:column; }
+.det-row { display:flex; justify-content:space-between; align-items:flex-start; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.04); gap:8px; }
+.det-row:last-child { border-bottom:none; }
+.det-label { font-size:10px; color:#3a3a52; flex-shrink:0; text-transform:uppercase; letter-spacing:.4px; font-weight:700; padding-top:1px; }
+.det-row span:last-child { font-size:11.5px; color:#9ca3af; text-align:right; }
+.det-path { font-size:10px !important; font-family:monospace; word-break:break-all; }
+.det-preview-wrap { display:flex; flex-direction:column; gap:6px; }
+.det-preview-label { font-size:10px; color:#3a3a52; text-transform:uppercase; letter-spacing:.6px; font-weight:700; }
+.det-preview { background:rgba(0,0,0,.4); border:1px solid rgba(255,255,255,0.04); border-radius:8px; padding:10px; margin:0; font-size:10.5px; font-family:'Consolas',monospace; color:#6b7280; line-height:1.5; max-height:170px; overflow-y:auto; white-space:pre; }
+.det-actions { display:flex; flex-direction:column; gap:6px; margin-top:auto; padding-top:8px; }
+.det-btn-open { width:100%; padding:9px; border-radius:9px; background:rgba(56,189,248,.1); border:1px solid rgba(56,189,248,.28); color:#38bdf8; font-size:12.5px; font-weight:600; cursor:pointer; transition:all .12s; font-family:inherit; }
+.det-btn-open:hover { background:rgba(56,189,248,.18); }
+.det-btn-row { display:flex; gap:6px; }
+.det-btn { flex:1; padding:7px; border-radius:7px; background:transparent; border:1px solid rgba(255,255,255,0.09); color:#9ca3af; font-size:12px; font-weight:500; cursor:pointer; transition:all .12s; font-family:inherit; }
+.det-btn:hover { background:rgba(255,255,255,0.06); color:#e2e8f0; }
+.det-btn-del { color:#ef4444; border-color:rgba(239,68,68,.2); }
+.det-btn-del:hover { background:rgba(239,68,68,.1); color:#f87171; }
+
+/* ═══════════════════════════════════════════════
+   CONTEXT MENU
+═══════════════════════════════════════════════ */
+.ctx-menu { position:fixed; background:#13151f; border:1px solid rgba(255,255,255,0.09); box-shadow:0 16px 40px rgba(0,0,0,.7); border-radius:10px; padding:6px; min-width:185px; z-index:9998; display:none; flex-direction:column; animation:xDrop .1s ease; }
+.ctx-menu.open { display:flex; }
+.ctx-item { display:flex; align-items:center; gap:10px; padding:8px 11px; border-radius:7px; font-size:13px; color:#e2e8f0; cursor:pointer; transition:background .1s; }
+.ctx-item svg { width:14px; height:14px; color:#6b7280; flex-shrink:0; }
+.ctx-item:hover { background:rgba(255,255,255,0.07); }
+.ctx-danger { color:#ef4444; }
+.ctx-danger svg { color:#ef4444; }
+.ctx-danger:hover { background:rgba(239,68,68,.1) !important; }
+.ctx-shortcut { margin-left:auto; font-size:10px; color:#3a3a52; }
+.ctx-divider { height:1px; background:rgba(255,255,255,0.06); margin:4px 0; }
+
+/* ═══════════════════════════════════════════════
+   MODALS — clasa xmodal-overlay, fara conflict
+═══════════════════════════════════════════════ */
+.xmodal-overlay {
+    position:fixed; inset:0;
+    background:rgba(0,0,0,.72); backdrop-filter:blur(10px);
+    z-index:10000; display:none;
+    justify-content:center; align-items:center;
 }
+.xmodal-overlay.open { display:flex; }
 
-.file-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 15px 10px;
-    border-radius: 12px;
-    cursor: pointer;
-    border: 1px solid transparent;
-    transition: all 0.2s;
-    user-select: none;
+.xmodal-box {
+    width:410px; padding:36px; border-radius:20px;
+    background:#0e1018; border:1px solid rgba(255,255,255,0.1);
+    box-shadow:0 30px 70px rgba(0,0,0,.8); animation:xDrop .2s ease;
 }
+/* Dialog mai mic pt confirm/prompt */
+.xmodal-sm { width:340px; padding:28px; }
 
-.file-item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: var(--glass-border);
+.xmodal-title { font-size:19px; font-weight:600; margin:0 0 22px; text-align:center; color:#e2e8f0; }
+.xmodal-input { width:100%; background:transparent; border:2px solid rgba(255,255,255,0.12); border-radius:10px; padding:11px 14px; color:#e2e8f0; font-size:14px; font-family:inherit; box-sizing:border-box; outline:none; transition:border-color .18s; }
+.xmodal-input:focus { border-color:#38bdf8; }
+.xmodal-error { font-size:12px; color:#ef4444; min-height:16px; margin-top:7px; }
+.xmodal-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:22px; }
+
+/* ── Confirm dialog custom ──────────────────── */
+.xconfirm-icon { display:flex; justify-content:center; margin-bottom:16px; }
+.xconfirm-icon svg { width:42px; height:42px; }
+.xconfirm-title { font-size:17px; font-weight:600; margin:0 0 10px; text-align:center; color:#e2e8f0; }
+.xconfirm-msg  { font-size:13px; color:#9ca3af; text-align:center; margin:0 0 4px; line-height:1.5; }
+.xconfirm-fname { font-size:13px; color:#e2e8f0; font-weight:600; text-align:center; margin:0 0 4px; word-break:break-all; }
+
+/* ── Prompt dialog custom ───────────────────── */
+.xprompt-label { font-size:13px; color:#9ca3af; margin:0 0 10px; }
+
+.xbtn-cancel {
+    background:transparent; border:1px solid rgba(255,255,255,0.1);
+    color:#9ca3af; padding:9px 20px; border-radius:9px;
+    font-size:13px; cursor:pointer; font-family:inherit; transition:all .12s;
 }
+.xbtn-cancel:hover { background:rgba(255,255,255,0.05); color:#e2e8f0; }
 
-.file-icon { width: 48px; height: 48px; margin-bottom: 10px; }
-.file-icon.folder { color: #facc15; fill: rgba(250, 204, 21, 0.2); }
-.file-icon.file { color: #9ca3af; fill: rgba(156, 163, 175, 0.1); }
-.file-icon.python { color: #3b82f6; }
-.file-icon.cpp { color: #6366f1; }
-
-.file-name {
-    font-size: 13px;
-    text-align: center;
-    color: var(--text-main);
-    word-break: break-all;
-    max-width: 100%;
+.xbtn-confirm {
+    background:rgba(56,189,248,.1); border:1px solid rgba(56,189,248,.3);
+    color:#38bdf8; padding:9px 20px; border-radius:9px;
+    font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; transition:all .12s;
 }
+.xbtn-confirm:hover { background:rgba(56,189,248,.2); }
+.xbtn-confirm:disabled { opacity:.4; cursor:not-allowed; }
 
-.loading-text { color: var(--text-muted); font-size: 14px; grid-column: 1 / -1; }
-
-/* =========================================
-   CONTEXT MENU (Click Dreapta)
-========================================= */
-.context-menu {
-    position: absolute;
-    background: #1a1d27;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    border-radius: 8px;
-    padding: 6px;
-    width: 180px;
-    z-index: 1000;
-    display: none;
-    flex-direction: column;
+/* Buton de stergere (rosu) in confirm dialog */
+.xbtn-danger-ok {
+    background:rgba(239,68,68,.12); border:1px solid rgba(239,68,68,.35);
+    color:#ef4444; padding:9px 20px; border-radius:9px;
+    font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; transition:all .12s;
 }
+.xbtn-danger-ok:hover { background:rgba(239,68,68,.22); color:#f87171; }
 
-.context-menu.active { display: flex; }
+.mc-input-wrap { display:flex; align-items:center; }
+.mc-input-wrap .xmodal-input { border-radius:10px 0 0 10px; }
+.mc-ext { background:rgba(56,189,248,.08); border:2px solid rgba(56,189,248,.25); border-left:none; border-radius:0 10px 10px 0; padding:11px 12px; font-size:13px; font-family:monospace; color:#38bdf8; white-space:nowrap; }
+.mc-preview { background:rgba(0,0,0,.35); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:10px 12px; margin-top:12px; font-size:10.5px; font-family:'Consolas',monospace; color:#4a5568; line-height:1.5; max-height:90px; overflow:hidden; white-space:pre; }
+.mc-preview:empty { display:none; }
 
-.context-item {
-    padding: 10px 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--text-main);
-    font-size: 13px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.2s;
-}
+/* ── Upload ─────────────────────────────────── */
+.xdrop-zone { width:100%; min-height:110px; border:2px dashed rgba(255,255,255,.1); border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; cursor:pointer; transition:all .18s; padding:20px; box-sizing:border-box; }
+.xdrop-zone:hover,.xdrop-zone.dragover { border-color:#38bdf8; background:rgba(56,189,248,.04); }
+.xdrop-text { font-size:13px; color:#6b7280; text-align:center; }
+.xupload-list { display:flex; flex-direction:column; gap:5px; margin-top:10px; max-height:140px; overflow-y:auto; }
+.xupload-item { display:flex; align-items:center; gap:10px; padding:7px 12px; background:rgba(255,255,255,.03); border-radius:8px; font-size:12px; color:#9ca3af; }
+.xupload-item-name { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.xupload-item-status { flex-shrink:0; font-size:11px; }
+.xupload-item-status.ok  { color:#10b981; }
+.xupload-item-status.err { color:#ef4444; }
+.xupload-item-status.pending { color:#f59e0b; }
 
-.context-item svg { width: 14px; height: 14px; }
-.context-item:hover { background: rgba(255, 255, 255, 0.1); }
-.context-item.danger { color: #ef4444; }
-.context-item.danger:hover { background: rgba(239, 68, 68, 0.15); }
-.context-divider { height: 1px; background: rgba(255, 255, 255, 0.1); margin: 4px 0; }
+/* ── Toast ──────────────────────────────────── */
+.xtoast { position:fixed; bottom:24px; right:24px; background:#1e293b; border:1px solid rgba(255,255,255,.12); color:#e2e8f0; padding:10px 18px; border-radius:10px; font-size:13px; font-weight:500; z-index:99999; opacity:0; transition:opacity .22s,transform .22s; transform:translateY(8px); pointer-events:none; }
+.xtoast.xshow   { opacity:1; transform:translateY(0); }
+.xtoast.success { background:rgba(16,185,129,.15); border-color:rgba(16,185,129,.35); color:#10b981; }
+.xtoast.error   { background:rgba(239,68,68,.15);  border-color:rgba(239,68,68,.35);  color:#ef4444; }
