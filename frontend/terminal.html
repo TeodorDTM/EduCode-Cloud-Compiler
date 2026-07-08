@@ -16,7 +16,8 @@
 
 <header class="top-nav">
     <div class="logo">
-        <span class="logo-prefix">~$</span><span class="logo-text">Edu<span class="logo-accent">Code</span></span>
+        <span class="logo-prefix">~$</span>
+        <span class="logo-text">Edu<span class="logo-accent">Code</span></span>
     </div>
     <div class="topnav-right">
         <button class="btn-logout" onclick="logout()">Logout</button>
@@ -47,14 +48,37 @@
     </aside>
 
     <main class="main-content terminal-main">
+
+        <!-- Header row: title + system badge -->
         <div class="terminal-header-top">
-            <h1 class="greeting" style="margin:0;font-size:28px;">Virtual Terminal</h1>
+            <h1 class="greeting" style="margin:0;font-size:26px;">Virtual Terminal</h1>
             <div class="terminal-badge">
-                <span class="status-dot"></span> Ubuntu 22.04 LTS
+                <span class="status-dot"></span>
+                <span class="badge-distro">Ubuntu 22.04 LTS</span>
+                <span class="badge-sep">·</span>
+                <span class="badge-user" id="badge-user">...</span>
             </div>
         </div>
+
+        <!-- Terminal window -->
         <div class="terminal-window">
-            <div id="full-terminal-container"></div>
+
+            <!-- Tab bar -->
+            <div class="term-tab-bar">
+                <div class="term-tabs-scroll">
+                    <div class="term-tabs" id="term-tabs"></div>
+                </div>
+                <button class="term-new-tab-btn" id="btn-new-tab" title="New Terminal (Ctrl+Shift+T)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Terminal panels -->
+            <div class="term-panels-wrap" id="term-panels-wrap"></div>
+
         </div>
     </main>
 </div>

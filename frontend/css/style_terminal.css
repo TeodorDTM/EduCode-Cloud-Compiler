@@ -1,73 +1,158 @@
-.terminal-body {
-    overflow: hidden; /* Nu vrem scroll pe toată pagina, doar în interiorul terminalului */
-}
+/* ══════════════════════════════════════════════
+   TERMINAL PAGE LAYOUT
+══════════════════════════════════════════════ */
+.terminal-body { overflow: hidden; }
 
 .terminal-main {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 30px 40px 30px 20px;
+    display: flex; flex-direction: column;
+    height: 100%; padding: 24px 36px 24px 16px; box-sizing: border-box;
+}
+
+/* ── Header row ─────────────────────────────── */
+.terminal-header-top {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px; flex-shrink: 0;
+}
+
+/* Badge top-right: Ubuntu 22.04 LTS · user@email */
+.terminal-badge {
+    background: rgba(13,15,20,0.8);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 7px 16px; border-radius: 10px;
+    font-size: 12.5px; color: #9ca3af;
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 500; font-family: 'Consolas', monospace;
+    backdrop-filter: blur(4px);
+}
+.status-dot {
+    width: 7px; height: 7px; background: #10b981;
+    border-radius: 50%; box-shadow: 0 0 7px rgba(16,185,129,0.7);
+    flex-shrink: 0;
+}
+.badge-distro { color: #cbd5e1; }
+.badge-sep    { color: #374151; font-size: 14px; }
+.badge-user   { color: #38bdf8; }
+
+/* ══════════════════════════════════════════════
+   TERMINAL WINDOW (outer frame)
+══════════════════════════════════════════════ */
+.terminal-window {
+    flex: 1; min-height: 0;
+    display: flex; flex-direction: column;
+    background: #0a0c12;
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 0 24px rgba(0,0,0,0.4);
+}
+
+/* ══════════════════════════════════════════════
+   TAB BAR
+══════════════════════════════════════════════ */
+.term-tab-bar {
+    display: flex; align-items: center;
+    background: #0b0d13;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    flex-shrink: 0; height: 42px;           /* un pic mai inalt */
+    padding: 0 4px;
+}
+
+.term-tabs-scroll {
+    flex: 1; overflow-x: auto; overflow-y: hidden;
+    display: flex; align-items: stretch;
+    scrollbar-width: none;
+}
+.term-tabs-scroll::-webkit-scrollbar { display: none; }
+
+.term-tabs { display: flex; align-items: stretch; gap: 4px; padding: 6px 0; }
+
+/* ── Tab individual ─────────────────────────── */
+.term-tab {
+    display: flex; align-items: center;
+    gap: 10px;                              /* mai mult spatiu intre icon, text, x */
+    padding: 0 12px 0 14px;
+    min-width: 140px; max-width: 200px;    /* mai lat */
+    border-radius: 8px;                    /* rotunjit, nu dreptunghiular */
+    border: 1px solid transparent;
+    cursor: pointer; position: relative;
+    font-size: 12px; color: #52525b; font-weight: 500;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    user-select: none; white-space: nowrap;
+    font-family: 'Consolas', monospace;
+    height: 30px;                          /* inaltime fixa in interiorul barei */
+}
+.term-tab:hover {
+    background: rgba(255,255,255,0.05);
+    color: #9ca3af;
+    border-color: rgba(255,255,255,0.07);
+}
+.term-tab.active {
+    background: rgba(56,189,248,0.09);
+    border-color: rgba(56,189,248,0.3);
+    color: #e2e8f0;
+}
+
+.term-tab-icon {
+    width: 13px; height: 13px; flex-shrink: 0; color: #3f3f46;
+    transition: color 0.15s;
+}
+.term-tab:hover .term-tab-icon { color: #6b7280; }
+.term-tab.active .term-tab-icon { color: #38bdf8; }
+
+.term-tab-name {
+    flex: 1; overflow: hidden; text-overflow: ellipsis;
+    letter-spacing: 0.1px;
+}
+
+/* Buton X — mai mare si mai usor de apassat */
+.term-tab-close {
+    width: 20px; height: 20px; border-radius: 5px;
+    background: none; border: none; color: #3f3f46;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 15px; line-height: 1; padding: 0; flex-shrink: 0;
+    transition: background 0.12s, color 0.12s;
+    opacity: 0;                             /* ascuns pana la hover */
+    margin-left: 2px;                       /* putina distanta fata de text */
+}
+.term-tab:hover .term-tab-close { opacity: 0.6; }
+.term-tab-close:hover { background: rgba(239,68,68,0.18); color: #ef4444; opacity: 1 !important; }
+.term-tab.active .term-tab-close { opacity: 0.45; }
+.term-tab.active .term-tab-close:hover { opacity: 1; background: rgba(239,68,68,0.18); color: #ef4444; }
+
+/* ── Buton + tab nou ────────────────────────── */
+.term-new-tab-btn {
+    width: 30px; height: 30px; border-radius: 7px;
+    background: none; border: 1px solid transparent;
+    color: #3f3f46; cursor: pointer; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; margin: 0 4px;
+}
+.term-new-tab-btn svg { width: 13px; height: 13px; }
+.term-new-tab-btn:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.08);
+    color: #9ca3af;
+}
+
+/* ══════════════════════════════════════════════
+   TERMINAL PANELS
+══════════════════════════════════════════════ */
+.term-panels-wrap {
+    flex: 1; min-height: 0; position: relative;
+    background: #0d0f14;
+}
+
+.term-panel {
+    position: absolute; inset: 0;
+    display: none;        /* hidden by default */
+    padding: 10px 10px 6px;
     box-sizing: border-box;
 }
+.term-panel.active { display: flex; }
 
-.terminal-header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.terminal-badge {
-    background-color: rgba(25, 27, 36, 0.6);
-    border: 1px solid var(--glass-border);
-    padding: 8px 16px;
-    border-radius: 12px;
-    font-size: 13px;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-}
-
-.status-dot {
-    width: 8px; 
-    height: 8px; 
-    background-color: #10b981; 
-    border-radius: 50%; 
-    margin-right: 10px; 
-    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-}
-
-.terminal-window {
-    flex: 1;
-    background-color: #0d0f14;
-    border: 2px solid var(--glass-border);
-    border-radius: 16px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    min-height: 0; /* Crucial pentru xterm.js fit addon */
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-}
-
-#full-terminal-container {
-    flex: 1;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-/* Stilizare extra pentru scrollbar-ul terminalului nativ XTERM */
-.xterm-viewport::-webkit-scrollbar {
-    width: 10px;
-}
-.xterm-viewport::-webkit-scrollbar-track {
-    background: transparent;
-}
-.xterm-viewport::-webkit-scrollbar-thumb {
-    background: #2a3a52;
-    border-radius: 5px;
-}
-.xterm-viewport::-webkit-scrollbar-thumb:hover {
-    background: #3b4d6b;
-}
+/* ── xterm.js overrides ─────────────────────── */
+.xterm { height: 100%; }
+.xterm-viewport::-webkit-scrollbar { width: 8px; }
+.xterm-viewport::-webkit-scrollbar-track { background: transparent; }
+.xterm-viewport::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+.xterm-viewport::-webkit-scrollbar-thumb:hover { background: #2a3a52; }
